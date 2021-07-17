@@ -1,0 +1,4 @@
+[submodule ".ssh"]
+	path = .ssh
+	url = ../sshkeys
+	branch = master

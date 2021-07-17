@@ -1,0 +1,29 @@
+alias tree=tree -I node_modules
+alias gcm=git commit -m
+alias smerge='/mnt/x/Programs/Sublime\ Merge/smerge.exe' 
+#alias ffmpeg=ffmpeg.exe
+alias explorer=explorer.exe
+alias exp=explorer.exe
+alias _npm=npm
+alias npm=pnpm
+alias gcm='git commit -m'
+alias gmg='git merge --commit'
+alias cls=clear
+alias home=cd ~
+alias renameall="f(){renameall.exe $@};f"
+#alias dart=dart.exe
+alias ls=ls --color=never
+alias msbuild=msbuild.exe
+alias speedtest=speedtest.exe
+alias ipconfig=ipconfig.exe
+alias cmd=cmd.exe
+alias run="f(){cmd.exe /c $@};f"
+alias cordless=cordless.exe
+alias spicetify=spicetify.exe
+alias serve=serve.exe
+alias gh=gh.exe
+alias wincode='cmd /c code .'
+alias imgsort=imagesorter.exe
+alias dotnet=dotnet.exe
+alias cmake=cmake.exe
+alias config='/usr/bin/git --git-dir=/home/cebbinghaus/.cfg/ --work-tree=/home/cebbinghaus'
