@@ -1,0 +1,117 @@
+# ~/.config/starship.toml
+
+# Use custom format
+# format = """
+# $directory$git_branch$git_state$package"""
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+command_timeout = 5000
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# [directory]
+# truncation_length = 5
+# truncate_to_repo = false
+# truncation_symbol = "…/"
+# format = "[$path]($style)[$read_only]($read_only_style) "
+# style = ""
+
+# [package]
+# format = "[📦$version]($style)[\ue0b0](red)"
+# style = "bold fg:white bg:red"
+
+# [git_branch]
+# format = "[$symbol$branch]($style)[\ue0b0](fg:purple)"
+# style = "bold fg:white bg:purple"
+
+# Pairs: [, ], [, ], [, ], [, ], [, ]
+
+format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$cmd_duration$memory_usage """
+
+
+[character]
+success_symbol = "[❯](#B1FF8F)"
+error_symbol = "[✗](#FF8582)"
+
+[cmd_duration]	
+style = "#f9a600"
+min_time = 1
+format = "[](fg:$style)[ 祥$duration ](bg:$style fg:black)"
+
+
+
+[directory]
+style = "bright-blue"
+truncate_to_repo = false
+fish_style_pwd_dir_length = 1
+format = "[](fg:$style bg:black)[ $path$read_only ](bg:$style fg:black)[ ](fg:$style)"
+read_only = " "
+
+[docker_context]
+style = "fg:black bg:#eb9606"
+symbol = "🐳  "
+format = "[$symbol$context]($style)"
+
+[git_branch]
+style = "#d8712c"
+format = "[](fg:$style)[ $symbol$branch ](fg:black bg:$style)[ ](fg:$style)"
+
+[git_commit]
+style = "#d8712c"
+format = "[](fg:$style)[\\($hash$tag\\)](fg:black bg:$style)[ ](fg:$style)"
+
+[git_state]
+style = "#d8712c"
+format = "[](fg:$style)[($state($progress_current/$progress_total))](fg:black bg:$style)[ ](fg:$style)"
+
+[git_status]
+style = "#d8712c"
+format = "([](fg:$style)[$conflicted$staged$modified$renamed$deleted$untracked$stashed$ahead_behind](fg:black bg:$style)[ ](fg:$style))"
+conflicted = "    ${count} "
+staged = "  $count"
+modified = "  ${count}"
+renamed = "  ${count}"
+deleted = "  ${count}"
+untracked = " ?${count}"
+stashed = "  ${count}"
+ahead = "  ${count}"
+behind = "  ${count}"
+diverged = " נּ  ${ahead_count}  ${behind_count} "
+
+[golang]
+symbol = "ﳑ "
+style = "fg:black bg:blue"
+format = "[](fg:$style)[$symbol$version]($style)[ ](fg:$style)"
+
+[memory_usage]
+style = "#f9a600"
+symbol = ""
+format = "[$symbol $ram_pct](bg:$style fg:black)[ ](fg:$style)"
+threshold = 2
+disabled = false
+
+[nodejs]
+style = "green"
+format = "[](fg:$style)[$symbol($version)](fg:black bg:$style)[ ](fg:$style)"
+
+[package]
+disabled = true
+style = "#eb9606"
+format = "[](fg:$style)[$symbol$version](fg:black bg:$style)[ ](fg:$style)"
+
+[python]
+symbol = " "
+style = "blue"
+format = "[](fg:$style)[$symbol$pyenv_prefix$version$virtualenv](fg:fg:black bg:$style)[ ](fg:$style)"
+
+[rust]
+style = "#eb9606"
+format = "[](fg:$style)[$symbol$version](fg:black bg:$style)[ ](fg:$style)"
+
+[username]
+show_always = true
+style_user = "black"
+style_root = "#FF8888"
+format = "[ $user ](fg:white bg:$style)"
