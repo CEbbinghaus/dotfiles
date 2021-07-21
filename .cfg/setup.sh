@@ -103,6 +103,11 @@ else
 	echo "Checked out Files from Remote"
 fi;
 
+config submodule init > /dev/null
+config submodule update --recursive > /dev/null
+
+echo "Checked out submodules"
+
 config config --local status.showUntrackedFiles no
 
 echo "Finished Setting up dotfile Environment. Swap to zsh, Copy Windows Files into their respective locations and enjoy"
