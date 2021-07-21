@@ -48,35 +48,61 @@ if [[ $1 != "--skip-install" ]]; then
 	fi
 
 	install=${osInstall["$os"]}
-
+	
+	echo "Checking for Existing Git installation"
 	if ! command -v git &> /dev/null
 	then
-		${install} "git"
+		echo "Installing Git"
+		${install} "git" > /dev/null
+		echo "Finished Installing Git"
 	fi
 
 fi
 
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-/usr/bin/git clone --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg 
+if [ -d "$HOME/.cfg" ]; then
+	echo "Config Already Cloned."
+	exit 1
+fi
+
+/usr/bin/git clone --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
 
 if [ $? -ne 0 ]; then
 	echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
 	exit 1
+else
+	echo "Cloned Bare Repository into .cfg"
 fi
 
-mkdir -p .config-backup && \
-
-config checkout
+config checkout &> /dev/null
 
 if [[ $? == 0 ]]; then
-  echo "Checked out config.";
-  else
+	echo "Checked out config.";
+else
+    if [ -d "$HOME/.config-backup" ]; then
+		echo "Backup Already Exists. Back it up or delete it before running script again"
+		exit 1
+    fi
+	
+	mkdir -p "$HOME/.config-backup" && \
     echo "Backing up pre-existing dot files.";
-    config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .config-backup/{}
-fi;
+    readarray -t elements <<< "$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})"
 
-config checkout
+    for el in "${elements[@]}"
+    do
+        if [[ $el == *"/"* ]]; then
+            mkdir -p "$HOME/.config-backup/${el%*/*}"
+        fi
+        mv $el "$HOME/.config-backup/$el"
+    done
+    echo "Finished Backing up Config files"
+	
+	config checkout
+	
+	echo "Checked out Files from Remote"
+fi;
 
 config config --local status.showUntrackedFiles no
 
+echo "Finished Setting up dotfile Environment. Swap to zsh, Copy Windows Files into their respective locations and enjoy"
