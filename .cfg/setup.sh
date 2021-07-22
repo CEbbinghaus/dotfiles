@@ -52,17 +52,29 @@ if [[ $1 != "--skip-install" ]]; then
 	declare -a packages
 	packages=(git gpg)
 
-	for pkg in ${!packages[@]}; do
+    installSuccess=true
 
+	for pkg in ${packages[@]}; do
 
 		echo "Checking for Existing $pkg installation"
-		if ! command -v $pkg -h &> /dev/null
+		if ! command -v $pkg --{00000000-0000-0000-0000-000000000000} &> /dev/null
 		then
 			echo "Installing $pkg"
 			${install} "$pkg" > /dev/null
-			echo "Finished Installing $pkg"
+			
+			if [ $? -ne 0 ]; then
+			    echo "Failed to Install $pkg. Please Install it Manually"
+			    installSuccess=false
+			else
+			    echo "Finished Installing $pkg"
+			fi
 		fi
 	done
+
+    if [[ $installSuccess == false ]]; then
+        echo "One or more packages Failed to install. Install them manually before trying again"
+        exit 1
+    fi
 
 fi
 
