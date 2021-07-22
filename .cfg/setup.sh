@@ -94,6 +94,11 @@ else
 	echo "Cloned Bare Repository into .cfg"
 fi
 
+if [[ -d "$HOME/.ssh" ]]; then
+	echo ".ssh Directory Already Exists. Backing it up Automatically"
+	mv $HOME/.ssh $HOME/.sshbackup
+fi
+
 config checkout &> /dev/null
 
 if [[ $? == 0 ]]; then
@@ -106,6 +111,11 @@ else
 	
 	mkdir -p "$HOME/.config-backup" && \
     echo "Backing up pre-existing dot files.";
+	
+	if [[ -d "$HOME/.sshbackup" ]]; then
+		mv $HOME/.sshbackup $HOME/.config-backup/.ssh
+	fi
+	
     readarray -t elements <<< "$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})"
 
     for el in "${elements[@]}"
@@ -115,7 +125,8 @@ else
         fi
         mv $el "$HOME/.config-backup/$el"
     done
-    echo "Finished Backing up Config files"
+    
+	echo "Finished Backing up Config files"
 	
 	config checkout
 	
