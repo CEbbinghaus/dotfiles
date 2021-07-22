@@ -129,20 +129,19 @@ else
     
 	echo "Finished Backing up Config files"
 	
-	config checkout
+	config checkout &> /dev/null
 	
 	echo "Checked out Files from Remote"
 fi;
 
-config submodule init > /dev/null
-config submodule update --recursive > /dev/null
+config submodule update --remote --init --recursive &> /dev/null
 
 echo "Checked out submodules"
 
+echo "Running SSH Setup Script"
 $HOME/.ssh/setup.sh
-
-echo "Finished Generating Keys"
+echo "Finished SSH Setup"
 
 config config --local status.showUntrackedFiles no
 
-echo "Finished Setting up dotfile Environment. Swap to zsh, Copy Windows Files into their respective locations and enjoy"
+echo "Finished Setting up dotfile Environment."
