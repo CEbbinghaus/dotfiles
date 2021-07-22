@@ -95,7 +95,7 @@ else
 fi
 
 if [[ -d "$HOME/.ssh" ]]; then
-	echo ".ssh Directory Already Exists. Backing it up Automatically"
+	echo ".ssh Directory Already Exists. Backing it up"
 	mv $HOME/.ssh $HOME/.sshbackup
 fi
 
@@ -106,6 +106,7 @@ if [[ $? == 0 ]]; then
 else
     if [ -d "$HOME/.config-backup" ]; then
 		echo "Backup Already Exists. Back it up or delete it before running script again"
+		rm -rf $HOME/.cfg
 		exit 1
     fi
 	
