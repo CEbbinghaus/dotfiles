@@ -48,14 +48,21 @@ if [[ $1 != "--skip-install" ]]; then
 	fi
 
 	install=${osInstall["$os"]}
-	
-	echo "Checking for Existing Git installation"
-	if ! command -v git &> /dev/null
-	then
-		echo "Installing Git"
-		${install} "git" > /dev/null
-		echo "Finished Installing Git"
-	fi
+
+	declare -a packages
+	packages=(git gpg)
+
+	for pkg in ${!packages[@]}; do
+
+
+		echo "Checking for Existing $pkg installation"
+		if ! command -v $pkg -h &> /dev/null
+		then
+			echo "Installing $pkg"
+			${install} "$pkg" > /dev/null
+			echo "Finished Installing $pkg"
+		fi
+	done
 
 fi
 
@@ -107,6 +114,10 @@ config submodule init > /dev/null
 config submodule update --recursive > /dev/null
 
 echo "Checked out submodules"
+
+./.ssh/setup.sh
+
+echo "Finished Generating Keys"
 
 config config --local status.showUntrackedFiles no
 
