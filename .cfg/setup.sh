@@ -139,7 +139,7 @@ config submodule update --recursive > /dev/null
 
 echo "Checked out submodules"
 
-./.ssh/setup.sh
+$HOME/.ssh/setup.sh
 
 echo "Finished Generating Keys"
 
