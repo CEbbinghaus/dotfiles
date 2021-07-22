@@ -50,7 +50,7 @@ if [[ $1 != "--skip-install" ]]; then
 	install=${osInstall["$os"]}
 
 	declare -a packages
-	packages=(git gpg)
+	packages=(git gpg zsh)
 
     installSuccess=true
 
