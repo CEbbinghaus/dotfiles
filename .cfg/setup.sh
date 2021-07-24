@@ -145,3 +145,10 @@ echo "Finished SSH Setup"
 config config --local status.showUntrackedFiles no
 
 echo "Finished Setting up dotfile Environment."
+
+if command -v wslpath -w $HOME &> /dev/null
+then
+	echo "Windows Subsystem for Linux Detected. Running windows setup script"
+	winhome=$(wslpath -w $HOME)
+	powershell.exe "$winhome\.cfg\winsetup.ps1 $winhome"
+fi
