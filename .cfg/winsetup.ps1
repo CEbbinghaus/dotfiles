@@ -1,10 +1,14 @@
+# Script level Paramters
+param (
+     [string] $WslHomePath = $null,
+     [switch] $Force = $false
+)
 
 # Check if the script is running with Elevated privileges and relaunch it as admin if not
-if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
-{
-  $arguments = "& '" +$myinvocation.mycommand.definition + "'"
-  Start-Process powershell -Verb runAs -ArgumentList $arguments
-  Break
+If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+	$PSHost = If ($PSVersionTable.PSVersion.Major -le 5) { 'PowerShell' } Else { 'PwSh' }
+	Start-Process -Verb RunAs $PSHost (@(' -NoExit')[!$NoExit] + " -File `"$PSCommandPath`" " + ($MyInvocation.Line -split '\.ps1[\s\''\"]\s*', 2)[-1])
+	Break
 }
 
 # Helper Function Definitions
@@ -13,7 +17,8 @@ function IsSystemLink([string]$path) {
   return [bool]($file.Attributes -band [IO.FileAttributes]::ReparsePoint)
 }
 
-# check if wsl is even installed
+
+# Exit Early if WSL is not installed
 try{
 	(wsl -l) | Out-Null
 }catch{
@@ -21,12 +26,16 @@ try{
 	Break
 }
 
-if($args.count -gt 0){
 
-	$wslHome = $args[0]
+# Grab either the Path from the argument or assume the default
+if ($WslHomePath) {
+
+	$wslHome = $WslHomePath
 	
 } else {
 	
+	echo "Reading Default WSL Values"
+
 	# Just as a Backup to make sure all Encoding is the same
 	$PSDefaultParameterValues['*:Encoding'] = 'utf8'
 	
@@ -57,21 +66,26 @@ if($args.count -gt 0){
 
 echo "Home set as: $wslHome"
 
+# Variables. 
 $links = (
 	(("$wslHome\.ssh"), ("$HOME"), ('.ssh'), ($true)),
 	(("$wslHome\.wt"), ("$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe"), ('LocalState'), ($true)),
 	(("$wslHome\.gitconfig"), ("$HOME"), ('.gitconfig'), ($false))
 )
 
+
 $backup = "$HOME\dotbackup\"
 
-if(Test-Path $backup){
-	if (Test-Path "$backup\*"){
-		echo "A Backup already Exists. Discard the Backup before trying again"
-		Break
+if (!$Force){
+	if (Test-Path $backup) {
+		if (Test-Path "$backup\*"){
+			echo "A Backup already Exists. Discard the Backup before trying again"
+			$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+			Break
+		}
+	}else{
+		mkdir $backup
 	}
-}else{
-	mkdir $backup
 }
 
 foreach($link in $links){
@@ -82,13 +96,17 @@ foreach($link in $links){
 
 	$linkpath = "$directory\$target"
 
-	if(Test-Path $linkpath){
-		if(IsSystemLink($linkpath)){
-			echo "$target Already looks to be linked. Skipping it"
-			continue
+	if ((Test-Path $linkpath)) {
+		if ($Force) {
+			(Get-Item $linkpath).Delete()
+		}else{
+			if(IsSystemLink($linkpath)){
+				echo "$target Already looks to be linked. Skipping it"
+				continue
+			}
+			echo "$target Already exists. Backing it up"
+			mv $linkpath $backup
 		}
-		echo "$target Already exists. Backing it up"
-		mv $linkpath $backup
 	}
 	
 	echo "Linking: $linkpath"

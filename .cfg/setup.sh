@@ -1,15 +1,19 @@
 #!/bin/bash
 shopt -s expand_aliases
 
-if [[ $1 == "-h" || $1 == "--help" ]]; then
+if [[ "$*" == *'-h'* || "$*" == *"--help"* ]]; then
 	echo " Chris' Dotfile Installer
-	-h --help Prints this dialogue
-	--skip-install Skips installing git. Ensure it exists
+	-h --help      			Prints this dialogue
+	--skip-install 			Skips installing git. Ensure it exists
+	--skip-clone   			Skips Cloning the repo and its submodules. lets you run only scripts
+	--skip-scripts 			Skips executing any Post Install scripts
+	--skip-bash-scripts		Skips only bash scripts
+	--skip-win-scripts 		Skips only Windows (wsl) Install scripts
 	"
 	exit 0
 fi
 
-if [[ $1 != "--skip-install" ]]; then
+if [[ "$*" != *"--skip-install"* ]]; then
 
 	declare -A osInfo
 	osInfo[/etc/debian_version]="deb"
@@ -78,77 +82,94 @@ if [[ $1 != "--skip-install" ]]; then
 
 fi
 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+if [[ "$*" != *"--skip-clone"* ]]; then
 
-if [ -d "$HOME/.cfg" ]; then
-	echo "Config Already Cloned."
-	exit 1
-fi
+	alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-/usr/bin/git clone --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
-
-if [ $? -ne 0 ]; then
-	echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
-	exit 1
-else
-	echo "Cloned Bare Repository into .cfg"
-fi
-
-if [[ -d "$HOME/.ssh" ]]; then
-	echo ".ssh Directory Already Exists. Backing it up"
-	mv $HOME/.ssh $HOME/.sshbackup
-fi
-
-config checkout &> /dev/null
-
-if [[ $? == 0 ]]; then
-	echo "Checked out config.";
-else
-    if [ -d "$HOME/.config-backup" ]; then
-		echo "Backup Already Exists. Back it up or delete it before running script again"
-		rm -rf $HOME/.cfg
+	if [ -d "$HOME/.cfg" ]; then
+		echo "Config Already Cloned."
 		exit 1
-    fi
-	
-	mkdir -p "$HOME/.config-backup" && \
-    echo "Backing up pre-existing dot files.";
-	
-	if [[ -d "$HOME/.sshbackup" ]]; then
-		mv $HOME/.sshbackup $HOME/.config-backup/.ssh
 	fi
-	
-    readarray -t elements <<< "$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})"
 
-    for el in "${elements[@]}"
-    do
-        if [[ $el == *"/"* ]]; then
-            mkdir -p "$HOME/.config-backup/${el%*/*}"
-        fi
-        mv $el "$HOME/.config-backup/$el"
-    done
-    
-	echo "Finished Backing up Config files"
-	
+	/usr/bin/git clone --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
+
+	if [ $? -ne 0 ]; then
+		echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
+		exit 1
+	else
+		echo "Cloned Bare Repository into .cfg"
+	fi
+
+	if [[ -d "$HOME/.ssh" ]]; then
+		echo ".ssh Directory Already Exists. Backing it up"
+		mv $HOME/.ssh $HOME/.sshbackup
+	fi
+
 	config checkout &> /dev/null
-	
-	echo "Checked out Files from Remote"
-fi;
 
-config submodule update --remote --init --recursive &> /dev/null
+	if [[ $? == 0 ]]; then
+		echo "Checked out config.";
+	else
+		if [ -d "$HOME/.config-backup" ]; then
+			echo "Backup Already Exists. Back it up or delete it before running script again"
+			rm -rf $HOME/.cfg
+			exit 1
+		fi
+		
+		mkdir -p "$HOME/.config-backup" && \
+		echo "Backing up pre-existing dot files.";
+		
+		if [[ -d "$HOME/.sshbackup" ]]; then
+			mv $HOME/.sshbackup $HOME/.config-backup/.ssh
+		fi
+		
+		readarray -t elements <<< "$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})"
 
-echo "Checked out submodules"
+		for el in "${elements[@]}"
+		do
+			if [[ $el == *"/"* ]]; then
+				mkdir -p "$HOME/.config-backup/${el%*/*}"
+			fi
+			mv $el "$HOME/.config-backup/$el"
+		done
+		
+		echo "Finished Backing up Config files"
+		
+		config checkout &> /dev/null
+		
+		echo "Checked out Files from Remote"
+	fi;
 
-echo "Running SSH Setup Script"
-$HOME/.ssh/setup.sh
-echo "Finished SSH Setup"
+	config submodule update --remote --init --recursive &> /dev/null
 
-config config --local status.showUntrackedFiles no
+	echo "Checked out submodules"
+
+fi
+
+if [[ "$*" != *"--skip-scripts"* && "$*" != *"--skip-bash-scripts"* ]]; then
+
+	echo "Running SSH Setup Script"
+	$HOME/.ssh/setup.sh
+	echo "Finished SSH Setup"
+
+	config config --local status.showUntrackedFiles no
+
+fi
+
+if [[ "$*" != *"--skip-scripts"* && "$*" != *"--skip-win-scripts"* ]]; then
+	if command -v wslpath -w $HOME &> /dev/null
+	then
+		echo "Windows Subsystem for Linux Detected. Running windows setup script"
+		wslhome=$(wslpath -w $HOME)
+		force=""
+
+		if("$*" != *"--force-win-script"*)
+
+		echo "Home is: $wslhome"
+		
+		sleep 2
+		powershell.exe "$wslhome\.cfg\winsetup.ps1 -WslHomePath $wslhome -Force"
+	fi
+fi
 
 echo "Finished Setting up dotfile Environment."
-
-if command -v wslpath -w $HOME &> /dev/null
-then
-	echo "Windows Subsystem for Linux Detected. Running windows setup script"
-	winhome=$(wslpath -w $HOME)
-	powershell.exe "$winhome\.cfg\winsetup.ps1 $winhome"
-fi
