@@ -1,0 +1,8 @@
+#export PATH="$PATH:/mnt/c/Program\ Files/Dart/dart-sdk/bin:/mnt/x/Scripts/:/usr/local/go/bin:$HOME/.go/bin"
+
+joinedPaths="$(cat ~/.path | tr '\n' ':')"
+
+export PATH="$PATH:$joinedPaths"
+source ~/.aliases
+
+export $(grep -v '^#' ~/.env | xargs)
