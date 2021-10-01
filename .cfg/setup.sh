@@ -9,6 +9,7 @@ if [[ "$*" == *'-h'* || "$*" == *"--help"* ]]; then
 	--skip-scripts 			Skips executing any Post Install scripts
 	--skip-bash-scripts		Skips only bash scripts
 	--skip-win-scripts 		Skips only Windows (wsl) Install scripts
+	--force-win-script		Forces the win script to overwrite links/files that already exist. No BACKUPS WILL BE MADE
 	"
 	exit 0
 fi
@@ -163,12 +164,11 @@ if [[ "$*" != *"--skip-scripts"* && "$*" != *"--skip-win-scripts"* ]]; then
 		wslhome=$(wslpath -w $HOME)
 		force=""
 
-		if("$*" != *"--force-win-script"*)
+		if ["$*" != *"--force-win-script"*]; then
+			force="-Force"
+		fi
 
-		echo "Home is: $wslhome"
-		
-		sleep 2
-		powershell.exe "$wslhome\.cfg\winsetup.ps1 -WslHomePath $wslhome -Force"
+		powershell.exe "$wslhome\.cfg\winsetup.ps1 -WslHomePath $wslhome $force"
 	fi
 fi
 

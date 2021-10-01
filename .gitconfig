@@ -20,7 +20,7 @@
 	fixref = !"git gc --prune=now"
 
 	# ammends all staged changes to the last commit
-	amend = !"git commit --amend --no-edit"
+	am = !"git commit --amend --no-edit"
 	
 	# Get the current branch name (not so useful in itself, but used in
 	# other aliases)
@@ -53,6 +53,9 @@
 	# Interactively rebase all the commits on the current branch
 	rebase-branch = "!git rebase -i `git merge-base master HEAD`"
 
+	# Unstage all new files
+	unstagenew = "!sh -c 'git diff --name-status --cached | grep ^A | sed 's/^A[[:space:]]//g' | xargs -I {} git reset HEAD {}'"
+
 	#
 	# Working with files
 	#
@@ -79,6 +82,10 @@
 	# Delete any branches that have been merged into master
 	# See also: https://gist.github.com/robmiller/5133264
 	delete-merged-branches = "!git co master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+	fbd = "!git branch -D $(git branch | fzf -m --header '!WARNING! Branch Will be Deleted') | clear"
+	fb = "!git switch $(git branch | fzf -m --header 'Select Branch') | clear"
+	fa = "!git add $(git ls-files --modified --others --exclude-standard | fzf -m) | clear"
 #[commit]
 #	gpgsign = true
 [pull]

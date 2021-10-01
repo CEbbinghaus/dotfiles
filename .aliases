@@ -1,18 +1,17 @@
-alias tree=tree -I node_modules
-alias gcm=git commit -m
+alias tree='tree -I node_modules'
+alias gcm='git commit -m'
 alias smerge='/mnt/x/Programs/Sublime\ Merge/smerge.exe' 
 #alias ffmpeg=ffmpeg.exe
 alias explorer=explorer.exe
 alias exp=explorer.exe
 alias _npm=npm
 alias npm=pnpm
-alias gcm='git commit -m'
 alias gmg='git merge --commit'
 alias cls=clear
-alias home=cd ~
+alias home='cd ~'
 alias renameall="f(){renameall.exe $@};f"
 #alias dart=dart.exe
-alias ls=ls --color=never
+alias ls='ls --color=never'
 alias msbuild=msbuild.exe
 alias speedtest=speedtest.exe
 alias ipconfig=ipconfig.exe

@@ -38,18 +38,18 @@ if ($WslHomePath) {
 
 	# Just as a Backup to make sure all Encoding is the same
 	$PSDefaultParameterValues['*:Encoding'] = 'utf8'
-	
+
 	# Has to exist before the Encoding is set. because Reasons 🤷‍♂️
 	$wslUser = (wsl "whoami")
-	
+
 	echo "Linux User: $wslUser"
-	
+
 	# Nessecary for the output of wsl -l to work. 
 	# Something wrong with the Encoding. More info can be found here:
 	# https://stackoverflow.com/questions/64104790/powershell-strange-wsl-output-string-encoding
 	# [System.Console]::OutputEncoding = [System.Text.Encoding]::Unicode
 	# [System.Console]::InputEncoding = [System.Text.Encoding]::Unicode
-	
+
 	if ($((wsl -l) -replace '\x00', '' -join ' ') -match '(?sm)(?:\n|\s|)(\w+)\s\(Default\)') {
 		$wslDistro = $Matches[1]
 	} else {
@@ -70,7 +70,9 @@ echo "Home set as: $wslHome"
 $links = (
 	(("$wslHome\.ssh"), ("$HOME"), ('.ssh'), ($true)),
 	(("$wslHome\.wt"), ("$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe"), ('LocalState'), ($true)),
-	(("$wslHome\.gitconfig"), ("$HOME"), ('.gitconfig'), ($false))
+	(("$wslHome\.gitconfig"), ("$HOME"), ('.gitconfig'), ($false)),
+	(("$wslHome\.pwsh"), ("$HOME\Documents"), ('PowerShell'), ($true)),
+	(("$wslHome\.pwsh"), ("$HOME\Documents"), ('WindowsPowerShell'), ($true))
 )
 
 
@@ -80,6 +82,7 @@ if (!$Force){
 	if (Test-Path $backup) {
 		if (Test-Path "$backup\*"){
 			echo "A Backup already Exists. Discard the Backup before trying again"
+			Write-Output "Press any key to Exit..."
 			$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 			Break
 		}
