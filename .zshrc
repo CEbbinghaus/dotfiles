@@ -113,3 +113,5 @@ fi
 export GPG_TTY=/dev/tty3
 
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

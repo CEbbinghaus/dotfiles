@@ -117,3 +117,5 @@ if ! shopt -oq posix; then
 fi
 
 . ~/.aliases
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

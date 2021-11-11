@@ -83,7 +83,10 @@
 	# See also: https://gist.github.com/robmiller/5133264
 	delete-merged-branches = "!git co master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
+	rb = "!git branch  -r --format '%(refname:lstrip=2)'"
+
 	fbd = "!git branch -D $(git branch | fzf -m --header '!WARNING! Branch Will be Deleted') | clear"
+	frb = "!git checkout $(git branch  -r --format '%(refname:lstrip=3)' | fzf -m --header 'Select Remote Branch') | clear"
 	fb = "!git switch $(git branch | fzf -m --header 'Select Branch') | clear"
 	fa = "!git add $(git ls-files --modified --others --exclude-standard | fzf -m) | clear"
 #[commit]
