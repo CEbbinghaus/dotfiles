@@ -88,6 +88,7 @@
 	fbd = "!git branch -D $(git branch | fzf -m --header '!WARNING! Branch Will be Deleted') | clear"
 	frb = "!git checkout $(git branch  -r --format '%(refname:lstrip=3)' | fzf -m --header 'Select Remote Branch') | clear"
 	fb = "!git switch $(git branch | fzf -m --header 'Select Branch') | clear"
+	fm = "!git merge $(git branch | fzf -m --header 'Select Branch to Merge') | clear"
 	fa = "!git add $(git ls-files --modified --others --exclude-standard | fzf -m) | clear"
 #[commit]
 #	gpgsign = true

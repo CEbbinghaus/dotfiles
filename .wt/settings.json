@@ -53,33 +53,26 @@
         "list": 
         [
             {
-                "name": "Vps SSH",
                 "closeOnExit": "always",
                 "commandline": "ssh root@54.38.159.184 -i C:/Users/CEbbi/.ssh/vps_rsa",
                 "guid": "{61c56bbd-c2c6-5271-52e7-632c87ff44bf}",
                 "icon": "ms-appdata:///local/server.png",
+                "name": "Vps SSH"
             },
             {
-                "name": "Unraid Server",
                 "closeOnExit": "always",
                 "commandline": "ssh root@192.168.0.24 -i C:/Users/CEbbi/.ssh/Unraid",
                 "guid": "{a1cd6bbd-c2cd-5272-55e7-632c97ff44bf}",
                 "icon": "ms-appdata:///local/Unraid.png",
+                "name": "Unraid Server"
             },
             {
-                "name": "Rasberry PI",
                 "closeOnExit": "always",
                 "commandline": "ssh pi@192.168.20.24 -i C:/Users/CEbbi/.ssh/rasberry_rsa",
                 "guid": "{61c56bbd-c251-5271-52e7-632c87ff44bf}",
                 "icon": "ms-appdata:///local/raspberrypi.png",
+                "name": "Rasberry PI"
             },
-            // {
-            //     "closeOnExit": "always",
-            //     "commandline": "ssh username@119.17.133.230 -i C:/Users/CEbbi/.ssh/anton",
-            //     "guid": "{61c56acd-c252-5261-52e7-632c87bf44bf}",
-            //     "icon": "ms-appdata:///local/a.png",
-            //     "name": "Anton"
-            // },
             {
                 "bellStyle": "all",
                 "closeOnExit": "never",
