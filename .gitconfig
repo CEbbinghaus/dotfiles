@@ -2,16 +2,19 @@
 	email = git@cebbinghaus.com
 	name = Christopher-Robin Ebbinghaus
 	signinkey = 82A3CD50A639B60F
+
 [core]
 	editor = vim
 	filemode = false
 	autocrlf = false
 	whitespace = cr-at-eol
+
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+	
 [alias]
 	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
@@ -82,13 +85,19 @@
 	# Delete any branches that have been merged into master
 	# See also: https://gist.github.com/robmiller/5133264
 	delete-merged-branches = "!git co master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+	
+	# Fuzzy Show remote Branches
+	rb = "!git branch -r --format '%(refname:lstrip=2)'"
 
-	rb = "!git branch  -r --format '%(refname:lstrip=2)'"
-
+	# Fuzzy Delete Local branch
 	fbd = "!git branch -D $(git branch | fzf -m --header '!WARNING! Branch Will be Deleted') | clear"
+	# Fuzzy Pull branch from server
 	frb = "!git checkout $(git branch  -r --format '%(refname:lstrip=3)' | fzf -m --header 'Select Remote Branch') | clear"
+	# Fuzzy swap branch
 	fb = "!git switch $(git branch | fzf -m --header 'Select Branch') | clear"
+	# Fuzzy Merge branch
 	fm = "!git merge $(git branch | fzf -m --header 'Select Branch to Merge') | clear"
+	# Fuzzy Add files
 	fa = "!git add $(git ls-files --modified --others --exclude-standard | fzf -m) | clear"
 #[commit]
 #	gpgsign = true

@@ -120,8 +120,8 @@ if [[ "$*" != *"--skip-clone"* ]]; then
 		mkdir -p "$HOME/.config-backup" && \
 		echo "Backing up pre-existing dot files.";
 		
-		if [[ -d "$HOME/.sshbackup" ]]; then
-			mv $HOME/.sshbackup $HOME/.config-backup/.ssh
+		if [[ -d "$HOME/.ssh-backup" ]]; then
+			mv $HOME/.ssh-backup $HOME/.config-backup/.ssh
 		fi
 		
 		readarray -t elements <<< "$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})"
@@ -168,7 +168,7 @@ if [[ "$*" != *"--skip-scripts"* && "$*" != *"--skip-win-scripts"* ]]; then
 			force="-Force"
 		fi
 
-		powershell.exe "$wslhome\.cfg\winsetup.ps1 -WslHomePath $wslhome $force"
+		powershell.exe "$wslhome\.cfg\linkdir.ps1 -Wsl -HomePath $wslhome $force"
 	fi
 fi
 
