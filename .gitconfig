@@ -97,6 +97,8 @@
 	fb = "!git switch $(git branch | fzf -m --header 'Select Branch') | clear"
 	# Fuzzy Merge branch
 	fm = "!git merge $(git branch | fzf -m --header 'Select Branch to Merge') | clear"
+	# Fuzzy Merge branch
+	fr = "!git rebase $(git branch | fzf -m --header 'Select Branch to rebase onto') | clear"
 	# Fuzzy Add files
 	fa = "!git add $(git ls-files --modified --others --exclude-standard | fzf -m) | clear"
 #[commit]
