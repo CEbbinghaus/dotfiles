@@ -66,10 +66,12 @@ Write-Output "Home set as: $HomePath"
 # Variables. 
 $links = (
 	(".wt", "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe", 'LocalState', $true),
+	(".wt", "$env:LOCALAPPDATA\Microsoft", 'Windows Terminal', $true),
 	(".pwsh", "$HOME\Documents", 'PowerShell', $true),
 	(".pwsh", "$HOME\Documents", 'WindowsPowerShell', $true),
 	(".ssh", "$HOME", '.ssh', $true),
-  	(".gitconfig", "$HOME", '.gitconfig', $false)
+  	(".gitconfig", "$HOME", '.gitconfig', $false),
+  	(".nu", "$env:APPDATA", 'nushell', $true)
 )
 
 $BackupPath = "$HOME\Backup\__LINKBACKUP__"
@@ -126,7 +128,7 @@ foreach($link in $links){
 		$dirarg = "/D"
 	}
 
-	cmd /C "cd $directory & mklink $dirarg $target $source" *> $null
+	cmd /C "cd $directory & mklink $dirarg `"$target`" `"$source`"" *> $null
 
 	if(-not $?) {
 		Write-Error "Unable to link $target"

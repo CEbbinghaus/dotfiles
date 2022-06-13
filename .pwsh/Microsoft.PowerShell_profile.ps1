@@ -1,5 +1,10 @@
 Invoke-Expression (&starship init powershell)
 
+if($PWD.Path -eq "C:\WINDOWS\system32") {
+  Set-Location ~
+}
+
+
 Clear-Host
 
 # Chocolatey profile

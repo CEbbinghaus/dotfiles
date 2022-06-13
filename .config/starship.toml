@@ -1,4 +1,5 @@
 # ~/.config/starship.toml
+"$schema" = 'https://starship.rs/config-schema.json'
 
 # Use custom format
 # format = """
@@ -30,7 +31,6 @@ add_newline = false
 
 format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$cmd_duration$memory_usage """
 
-
 [character]
 success_symbol = "[❯](#B1FF8F)"
 error_symbol = "[✗](#FF8582)"
@@ -40,10 +40,8 @@ style = "#f9a600"
 min_time = 1
 format = "[](fg:$style)[ 祥$duration ](bg:$style fg:black)"
 
-
-
 [directory]
-style = "bright-blue"
+style = "#67b0ff"
 truncate_to_repo = false
 fish_style_pwd_dir_length = 1
 format = "[](fg:$style bg:black)[ $path$read_only ](bg:$style fg:black)[ ](fg:$style)"
@@ -88,13 +86,13 @@ format = "[](fg:$style)[$symbol$version]($style)[ ](fg:$style)"
 [memory_usage]
 style = "#f9a600"
 symbol = ""
-format = "[$symbol $ram_pct](bg:$style fg:black)[ ](fg:$style)"
+format = "[$symbol $ram_pct ](bg:$style fg:black)[ ](fg:$style)"
 threshold = 2
 disabled = false
 
 [nodejs]
-style = "green"
-format = "[](fg:$style)[$symbol($version)](fg:black bg:$style)[ ](fg:$style)"
+style = "#aef27f"
+format = "[](fg:$style)[ $symbol($version) ](fg:black bg:$style)[ ](fg:$style)"
 
 [package]
 disabled = true
