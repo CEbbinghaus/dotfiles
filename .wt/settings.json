@@ -38,14 +38,17 @@
     {
         "defaults": 
         {
+            "backgroundImage": null,
             "colorScheme": "CustomTheme",
             "cursorColor": "#FFFFFF",
             "cursorShape": "bar",
+            "experimental.retroTerminalEffect": false,
             "font": 
             {
                 "face": "FiraCode NF Retina",
                 "size": 14
             },
+            "intenseTextStyle": "all",
             "opacity": 50,
             "padding": "20, 20, 0, 0",
             "snapOnInput": true,
@@ -62,7 +65,7 @@
             },
             {
                 "closeOnExit": "always",
-                "commandline": "ssh root@192.168.0.24 -i C:/Users/CEbbi/.ssh/Unraid",
+                "commandline": "ssh root@192.168.0.24 -i C:/Users/CEbbi/.ssh/unraid",
                 "guid": "{a1cd6bbd-c2cd-5272-55e7-632c97ff44bf}",
                 "icon": "ms-appdata:///local/Unraid.png",
                 "name": "Unraid Server"
@@ -108,6 +111,7 @@
                 "startingDirectory": null
             },
             {
+                "closeOnExit": "always",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
                 "name": "Windows PowerShell",
@@ -367,7 +371,9 @@
             "yellow": "#808000"
         }
     ],
+    "snapToGridOnResize": false,
     "tabSwitcherMode": "disabled",
+    "tabWidthMode": "equal",
     "useAcrylicInTabRow": true,
-    "wordDelimiters": " /\\()\"'-.,:;<>~!@#$%^&*|+=[]{}~?\u2502"
+    "wordDelimiters": " /\\()\"'-.,:;<>~!@#$%^&*|+=[]{}~?\u2502-"
 }
