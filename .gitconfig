@@ -86,6 +86,10 @@
 	# See also: https://gist.github.com/robmiller/5133264
 	delete-merged-branches = "!git co master && git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 	
+	# Retrieve the root directory of the current git folder
+	root = "rev-parse --show-toplevel"
+
+
 	# Fuzzy Show remote Branches
 	rb = "!git branch -r --format '%(refname:lstrip=2)'"
 

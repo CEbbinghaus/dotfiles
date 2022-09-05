@@ -29,7 +29,7 @@ add_newline = false
 
 # Pairs: [, ], [, ], [, ], [, ], [, ]
 
-format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$cmd_duration$memory_usage """
+format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$cmd_duration$memory_usage"""
 
 [character]
 success_symbol = "[❯](#B1FF8F)"
@@ -39,6 +39,14 @@ error_symbol = "[✗](#FF8582)"
 style = "#f9a600"
 min_time = 1
 format = "[](fg:$style)[ 祥$duration ](bg:$style fg:black)"
+
+
+[memory_usage]
+style = "#f9a600"
+symbol = ""
+format = "[$symbol $ram_pct ](bg:$style fg:black)[ ](fg:$style)"
+threshold = 2
+disabled = false
 
 [directory]
 style = "#67b0ff"
@@ -82,13 +90,6 @@ diverged = " נּ  ${ahead_count}  ${behind_count} "
 symbol = "ﳑ "
 style = "fg:black bg:blue"
 format = "[](fg:$style)[$symbol$version]($style)[ ](fg:$style)"
-
-[memory_usage]
-style = "#f9a600"
-symbol = ""
-format = "[$symbol $ram_pct ](bg:$style fg:black)[ ](fg:$style)"
-threshold = 2
-disabled = false
 
 [nodejs]
 style = "#aef27f"

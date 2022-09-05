@@ -39,3 +39,19 @@ function config()
 function ReloadProfile {
   . $profile
 }
+
+function Format-FileSize() {
+  Param ([int64]$size, [switch]$Fixed = $false, [int]$DecimalPlaces = 2)
+  $char = if ($Fixed) {"0"} else {"#"}
+  $format = "{0:0.$($char * $DecimalPlaces)}"
+  If     ($size -ge 1PB) {[string]::Format("$format`PB", $size / 1PB)}
+  ElseIf ($size -ge 1TB) {[string]::Format("$format`TB", $size / 1TB)}
+  ElseIf ($size -ge 1GB) {[string]::Format("$format`GB", $size / 1GB)}
+  ElseIf ($size -ge 1MB) {[string]::Format("$format`MB", $size / 1MB)}
+  ElseIf ($size -ge 1KB) {[string]::Format("$format`kB", $size / 1KB)}
+  ElseIf ($size -ge 0)   {[string]::Format("{0}B", $size)}
+  Else                   {""}
+}
+
+# function Global:prompt {
+# }

@@ -263,7 +263,7 @@ if(-not $SkipClone) {
 	} else {
 		
 		Output "Cloning Repository..."
-		&git clone --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg *> $null
+		&git clone  --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg *> $null
 		
 		if (-not $?)
 		{

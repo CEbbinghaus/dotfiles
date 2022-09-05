@@ -92,7 +92,7 @@ if [[ "$*" != *"--skip-clone"* ]]; then
 		exit 1
 	fi
 
-	/usr/bin/git clone --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
+	/usr/bin/git clone  --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
 
 	if [ $? -ne 0 ]; then
 		echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
