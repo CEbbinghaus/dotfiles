@@ -402,6 +402,6 @@ let-env config = {
   ]
 }
 
-# source ~/.cache/starship/init.nu
+source ~/.cache/starship/init.nu
 
 cd (if $env.PWD == 'C:\WINDOWS\system32' {'~'} else {$env.PWD})

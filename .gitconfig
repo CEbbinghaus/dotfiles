@@ -1,13 +1,17 @@
 [user]
 	email = git@cebbinghaus.com
-	name = Christopher-Robin Ebbinghaus
+	name = CEbbinghaus
 	signinkey = 82A3CD50A639B60F
+
+#[commit]
+#	gpgsign = true
 
 [core]
 	editor = vim
 	filemode = false
 	autocrlf = false
 	whitespace = cr-at-eol
+	longpaths = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -16,9 +20,11 @@
 	required = true
 	
 [alias]
+	lgm1 = !"git log master..$(git branch-name) --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 	lg = !"git lg1"
+	lgm = !"git lgm1"
 
 	fixref = !"git gc --prune=now"
 

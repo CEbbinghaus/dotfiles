@@ -36,8 +36,13 @@ function config()
     &git --git-dir=$HOME/.cfg/ --work-tree=$HOME $args
 }
 
-function ReloadProfile {
-  . $profile
+function Reload {
+  . $Profile
+}
+
+function IsAdministrator {
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent();
+    return (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 
 function Format-FileSize() {
