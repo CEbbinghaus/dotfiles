@@ -1,4 +1,5 @@
 Invoke-Expression (&starship init powershell)
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 if($PWD.Path -eq "C:\WINDOWS\system32") {
   Set-Location ~
