@@ -195,6 +195,45 @@ function Link {
 # function Global:prompt {
 # }
 
+function CopyAnalyzers {
+	Push-Location /git/wtg/CargoWise/Shared/CargoWise.Analyzers
+	dotnet build *> $null
+
+	Copy-Item -Force bin/CargoWise.Analyzers.dll /git/wtg/CargoWise/Dev/packages/build/CargoWise.Analyzers/analyzers/dotnet/cs
+	Pop-Location
+}
+
+function ConvertClipboard {
+	[Reflection.Assembly]::LoadWithPartialName('System.Web')
+    $linkName = Get-Clipboard
+    $rawLink = Get-Clipboard -TextFormatType Rtf
+    $rawLink[2] -match 'ControllerID=(\w+)&BusinessEntityPK=([0-9a-f\-]+)&'
+    $type = $Matches[1]
+    $id = $Matches[2]
+    Write-Host $type 
+    Write-Host $id
+    $type = [System.Web.HttpUtility]::UrlEncode($type)
+    $id = [System.Web.HttpUtility]::UrlEncode($id)
+    $htmlContent = '<a href=\"https://svc-ediprod.wtg.zone/Services/link/ShowEditForm/{0}/{1}?lang=en-gb\" target="_blank">{2}</a>' -f $type,$id,$linkName
+    Set-Clipboard -Value $htmlContent -AsHtml
+}
+
+function ShuffleBag {
+	param(
+		[string[]]$Items
+	)
+
+	$Items = $Items | Sort-Object {Get-Random}
+
+	do {
+		$value, $rest = $Items
+		$Items = $rest | Sort-Object {Get-Random}
+		Write-Host $value
+
+		while($Items.Length -gt 0 -and $host.UI.RawUI.ReadKey('IncludeKeyDown, NoEcho').VirtualKeyCode -ne 13){}
+	} while ($Items.Length -gt 0)
+}
+
 function Get-Cache() {
   param (
     [switch]
@@ -278,6 +317,14 @@ function Get-Cache() {
 }
 
 function Authenticate {
+  param (
+	[switch]$Cold
+  )
+  
+  if($Cold) {
+	Start-Job { emulator -avd Authenticator -noaudio -no-snapshot-load *> $null } *> $null
+	return;
+  }
   Start-Job { emulator -avd Authenticator -noaudio *> $null } *> $null
 }
 
@@ -290,8 +337,8 @@ function Clean {
   # The previous command existed abnormally (We are not in a git repository)
   if(-not $?)
   {
-    Write-Output "Not in a git repository..."
-    return
+	Write-Output "Not in a git repository..."
+	return
   }
 
   $currentDir = $pwd.Path
@@ -300,7 +347,7 @@ function Clean {
   Set-Location $rootDir
   
   foreach($file in $files) {
-    Move-Item "$file" "../"
+	Move-Item "$file" "../"
   }
   Write-Output "Moved files out"
   
@@ -308,7 +355,7 @@ function Clean {
   &git clean -xfd *> $null
   
   foreach($file in $files) {
-    Move-Item "../$file" "./"
+	Move-Item "../$file" "./"
   }
   Write-Output "Moved files back in"
   
