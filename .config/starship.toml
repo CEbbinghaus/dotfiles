@@ -29,8 +29,16 @@ add_newline = false
 
 # Pairs: [, ], [, ], [, ], [, ], [, ]
 
-format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$cmd_duration$memory_usage"""
-continuation_prompt = " > "
+format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$cmd_duration$memory_usage\u001b7${fill}$time\u001b8"""
+
+[fill]
+symbol = " "
+
+[time]
+disabled = false
+style = "fg:white"
+format = '[$time]($style)'
+time_format = "%l:%M %p"
 
 [character]
 success_symbol = "[❯](#B1FF8F)"
