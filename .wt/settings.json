@@ -4,8 +4,8 @@
     "actions": 
     [
         {
-            "command": "find",
-            "keys": "ctrl+shift+f"
+            "command": "paste",
+            "keys": "ctrl+v"
         },
         {
             "command": 
@@ -16,8 +16,8 @@
             "keys": "ctrl+c"
         },
         {
-            "command": "paste",
-            "keys": "ctrl+v"
+            "command": "find",
+            "keys": "ctrl+shift+f"
         },
         {
             "command": 
@@ -45,7 +45,7 @@
             "experimental.retroTerminalEffect": false,
             "font": 
             {
-                "face": "FiraCode Nerd Font Retina",
+                "face": "FiraCode NF Retina",
                 "size": 14
             },
             "intenseTextStyle": "all",
@@ -138,40 +138,16 @@
                 "tabTitle": "Nushell"
             },
             {
-                "guid": "{1777cdf0-b2c4-5a63-a204-eb60f349ea7c}",
+                "guid": "{3e3511ae-2dc3-579d-aab9-0f85c38f3fee}",
                 "hidden": false,
-                "name": "Alpine",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "guid": "{c8339fe0-2772-50ec-b895-967cd1f00e68}",
-                "hidden": false,
-                "name": "Developer Command Prompt for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{416a64dd-53c9-53ad-aa4d-187e9ee744ef}",
-                "hidden": false,
-                "name": "Developer PowerShell for VS 2022",
-                "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{bcea6385-29c4-555b-b7a1-cdf728c32012}",
-                "hidden": true,
                 "name": "Developer Command Prompt for VS 2019",
                 "source": "Windows.Terminal.VisualStudio"
             },
             {
-                "guid": "{e744505f-b73f-5f21-b1b6-cf485bb0b0d4}",
-                "hidden": true,
+                "guid": "{516e662f-0b91-5587-882a-dc8113cca6a6}",
+                "hidden": false,
                 "name": "Developer PowerShell for VS 2019",
                 "source": "Windows.Terminal.VisualStudio"
-            },
-            {
-                "guid": "{16208362-94fc-5b1f-a491-5b2624d5ab56}",
-                "hidden": true,
-                "name": "Visual Studio Debug Console",
-                "source": "VSDebugConsole"
             }
         ]
     },
