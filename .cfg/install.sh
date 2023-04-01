@@ -53,16 +53,16 @@ if [[ "$*" == *'-h'* || "$*" == *"--help"* ]]; then
 	exit 0
 fi
 
-if [[ $(readlink /proc/$$/exe) == "/bin/busybox" ]]; then
-	echo "Currently Running in Busybox. Things might break."
-	prompt "Do you want to proceed?"
+# if [[ $(readlink /proc/$$/exe) == "/bin/busybox" ]]; then
+# 	echo "Currently Running in Busybox. Things might break."
+# 	prompt "Do you want to proceed?"
 
-	if [[ $out == false ]]; then
-		exit 0
-	else
-		clear
-	fi
-fi
+# 	if [[ $out == false ]]; then
+# 		exit 0
+# 	else
+# 		clear
+# 	fi
+# fi
 
 determine_distro()
 {
