@@ -8,16 +8,24 @@ prompt()
 {
 	question="$1"
 
-	printf "$question (y/n)"
-	old_stty_cfg=$(stty -g)
-	stty raw -echo
-	answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
-	stty $old_stty_cfg
-	if [ "$answer" != "${answer#[Yy]}" ];then
+	printf "$question (y/n) "
+	read answer
+
+	if [ "$answer" != "${answer#[Yy]}" ] ;then # this grammar (the #[] operator) means that the variable $answer where any Y or y in 1st position will be dropped if they exist.
 		out=true
 	else
 		out=false
 	fi
+
+	# old_stty_cfg=$(stty -g)
+	# stty raw -echo
+	# answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
+	# stty $old_stty_cfg
+	# if [ "$answer" != "${answer#[Yy]}" ];then
+	# 	out=true
+	# else
+	# 	out=false
+	# fi
 	printf "\n"
 }
 
