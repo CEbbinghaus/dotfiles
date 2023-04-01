@@ -1,78 +1,148 @@
-#!/bin/bash
-shopt -s expand_aliases
+#!/bin/sh
+
+clear
+
+version="1.2.1"
+
+prompt()
+{
+	question="$1"
+
+	printf "$question (y/n)"
+	old_stty_cfg=$(stty -g)
+	stty raw -echo
+	answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
+	stty $old_stty_cfg
+	if [ "$answer" != "${answer#[Yy]}" ];then
+		out=true
+	else
+		out=false
+	fi
+	printf "\n"
+}
+
+print_header()
+{
+	printf "    ______      _    __ _ _        _____          _        _ _           
+    |  _  \    | |  / _(_) |      |_   _|        | |      | | |          
+    | | | |___ | |_| |_ _| | ___    | | _ __  ___| |_ __ _| | | ___ _ __ 
+    | | | / _ \| __|  _| | |/ _ \   | || '_ \/ __| __/ _\` | | |/ _ \ '__|
+    | |/ / (_) | |_| | | | |  __/  _| || | | \__ \ || (_| | | |  __/ |   
+    |___/ \___/ \__|_| |_|_|\___|  \___/_| |_|___/\__\__,_|_|_|\___|_|  @$version
+                                                                         
+                                                           by CEbbinghaus\n\n"
+}
 
 if [[ "$*" == *'-h'* || "$*" == *"--help"* ]]; then
-	echo " Chris' Dotfile Installer
+	print_header
+	echo "Arguments:
 	-h --help      			Prints this dialogue
+	-f --force     			Forces a fresh install
 	--skip-install 			Skips installing git. Ensure it exists
 	--skip-clone   			Skips Cloning the repo and its submodules. lets you run only scripts
-	--skip-scripts 			Skips executing any Post Install scripts
-	--skip-bash-scripts		Skips only bash scripts
-	--skip-win-scripts 		Skips only Windows (wsl) Install scripts
-	--force-win-script		Forces the win script to overwrite links/files that already exist. No BACKUPS WILL BE MADE
+	--skip-scripts 			Skips executing any Post-Install scripts
 	"
 	exit 0
 fi
 
-if [[ "$*" != *"--skip-install"* ]]; then
+if [[ $(readlink /proc/$$/exe) == "/bin/busybox" ]]; then
+	echo "Currently Running in Busybox. Things might break."
+	prompt "Do you want to proceed?"
 
-	declare -A osInfo
-	osInfo[/etc/debian_version]="deb"
-	osInfo[/etc/alpine-release]="alp"
-	osInfo[/etc/centos-release]="cnt"
-	osInfo[/etc/fedora-release]="fed"
-	osInfo[/etc/arch-release]="ach"
-
-	declare -A osInstall;
-	osInstall["deb"]="apt-get install -y"
-	osInstall["alp"]="apk --update add"
-	osInstall["cnt"]="yum install -y"
-	osInstall["fed"]="dnf install -y"
-	osInstall["ach"]="pacman -Su --noconfirm"
-
-	declare -A osName;
-	osName["deb"]="Debian"
-	osName["alp"]="Alpine"
-	osName["cnt"]="CentOS"
-	osName["fed"]="Fedora"
-	osName["ach"]="Arch"
-
-	for f in ${!osInfo[@]}
-	do
-		if [[ -f $f ]];then
-			os=${osInfo[$f]}
-		fi
-	done
-
-	if [ -z "$os" ]
-	then
-		echo "Couldn't Identify Host Distribution. "
-		exit 1
+	if [[ $out == false ]]; then
+		exit 0
 	else
-		echo "Identified Distro as ${osName["$os"]}"
+		clear
+	fi
+fi
+
+determine_distro()
+{
+	if   [ -f /etc/debian_version ];	then os="deb"
+	elif [ -f /etc/alpine-release ];	then os="alp"
+	elif [ -f /etc/alpine-release ];	then os="alp"
+	elif [ -f /etc/centos-release ];    then os="cnt"
+	elif [ -f /etc/fedora-release ];    then os="fed"
+	elif [ -f /etc/arch-release   ];    then os="ach"
+	elif [ -f /etc/redhat-release ];    then os="red"
+	elif [ -f /etc/gentoo-release ];    then os="gen"
+	elif [ -f /etc/SuSE-release   ];    then os="sus"
 	fi
 
-	install=${osInstall["$os"]}
+	echo $os
+}
 
-	declare -a packages
-	packages=(git gpg zsh)
+determine_distro_installer()
+{
+	os="$1"
+
+	if   [ $os == "deb" ];	then osInstall="apt-get install -y"
+	elif [ $os == "alp" ]; then osInstall="apk --update add"
+	elif [ $os == "cnt" ]; then osInstall="yum install -y"
+	elif [ $os == "fed" ]; then osInstall="dnf install -y"
+	elif [ $os == "ach" ]; then osInstall="pacman -Su --noconfirm"
+	elif [ $os == "red" ]; then osInstall="yum install"
+	elif [ $os == "gen" ]; then osInstall="emerge"
+	elif [ $os == "sus" ]; then osInstall="zypper install"
+	fi
+
+	echo $osInstall
+}
+
+determine_distro_name()
+{
+	os="$1"
+
+	if   [ $os == "deb" ];	then osName="Debian"
+	elif [ $os == "alp" ];	then osName="Alpine"
+	elif [ $os == "cnt" ];	then osName="CentOS"
+	elif [ $os == "fed" ];	then osName="Fedora"
+	elif [ $os == "ach" ];	then osName="Arch"
+	elif [ $os == "red" ];	then osName="RedHat"
+	elif [ $os == "gen" ];	then osName="Gentoo"
+	elif [ $os == "sus" ];	then osName="Suse"
+	fi
+
+	echo $osName
+}
+
+# Installer script
+
+print_header
+
+os=$(determine_distro)
+
+if [ -z "$os" ]
+then
+	echo "Couldn't Identify Host Distribution. "
+	exit 1
+else
+	echo "Identified Distro as $(determine_distro_name "$os")"
+fi
+
+if [[ "$*" != *"--skip-install"* ]]; then
+
+	printf "\n> Installing Packages.\n"
+
+	install=$(determine_distro_installer "$os")
+
+	packages='git'
 
     installSuccess=true
 
-	for pkg in ${packages[@]}; do
-
-		echo "Checking for Existing $pkg installation"
+	for pkg in $packages; do
 		if ! command -v $pkg --{00000000-0000-0000-0000-000000000000} &> /dev/null
 		then
-			echo "Installing $pkg"
-			${install} "$pkg" > /dev/null
+			printf "Installing $pkg..."
+			$install "$pkg" > /dev/null
 			
 			if [ $? -ne 0 ]; then
-			    echo "Failed to Install $pkg. Please Install it Manually"
+			    printf "ERR. Please Install it Manually"
 			    installSuccess=false
 			else
-			    echo "Finished Installing $pkg"
+			    printf "OK"
 			fi
+			printf "\n"
 		fi
 	done
 
@@ -83,16 +153,26 @@ if [[ "$*" != *"--skip-install"* ]]; then
 
 fi
 
+noSubmodules=false
+
 if [[ "$*" != *"--skip-clone"* ]]; then
 
-	alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-
-	if [ -d "$HOME/.cfg" ]; then
-		echo "Config Already Cloned."
+	if [[ "$*" != *"-f"*  && "$*" != *"--force"* && -d "$HOME/.cfg" ]]; then
+		printf "\n> Dotfiles already cloned\n"
 		exit 1
 	fi
 
-	/usr/bin/git clone  --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
+	printf "\n> Cloning dotfiles...\n"
+
+	if [ -d "$HOME/.backup" ]; then
+		echo "Backup directory already exists. Back it up or delete it before running script again"
+		exit 1
+	else
+		echo "Creating Backup Directory"
+		mkdir -p "$HOME/.backup"
+	fi
+
+	/usr/bin/git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg &> /dev/null
 
 	if [ $? -ne 0 ]; then
 		echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
@@ -103,31 +183,28 @@ if [[ "$*" != *"--skip-clone"* ]]; then
 
 	if [[ -d "$HOME/.ssh" ]]; then
 		echo ".ssh Directory Already Exists. Backing it up"
-		mv $HOME/.ssh $HOME/.sshbackup
+		mv $HOME/.ssh $HOME/.backup/.ssh
 	fi
 
-	config checkout &> /dev/null
+	output=$(/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout 2>&1) # &> /dev/null
 
 	if [[ $? == 0 ]]; then
 		echo "Checked out config.";
 	else
-		if [ -d "$HOME/.config-backup" ]; then
-			echo "Backup Already Exists. Back it up or delete it before running script again"
-			rm -rf $HOME/.cfg
-			exit 1
-		fi
+		echo "Checkout Failed. Trying to automatically back up existing dotfiles.."
 		
-		mkdir -p "$HOME/.config-backup" && \
-		echo "Backing up pre-existing dot files.";
+		mkdir -p "$HOME/.config-backup"
+		echo "Backing up pre-existing dot files..";
 		
 		if [[ -d "$HOME/.ssh-backup" ]]; then
 			mv $HOME/.ssh-backup $HOME/.config-backup/.ssh
 		fi
 		
-		readarray -t elements <<< "$(config checkout 2>&1 | egrep "\s+\." | awk {'print $1'})"
+		elements="$(echo "$output" | egrep "\s+(README)?\." | awk {'print $1'})"
 
-		for el in "${elements[@]}"
+		for el in $elements
 		do
+			echo "	Backing up $el"
 			if [[ $el == *"/"* ]]; then
 				mkdir -p "$HOME/.config-backup/${el%*/*}"
 			fi
@@ -136,40 +213,41 @@ if [[ "$*" != *"--skip-clone"* ]]; then
 		
 		echo "Finished Backing up Config files"
 		
-		config checkout &> /dev/null
+		/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout &> /dev/null
 		
 		echo "Checked out Files from Remote"
-	fi;
+	fi
 
-	config submodule update --remote --init --recursive &> /dev/null
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive &> /dev/null
 
-	echo "Checked out submodules"
+	if [[ $? == 0 ]]; then
+		echo "Checked out submodules"
+	else
+		echo "Failed to initialize Submodules. Please run 'config submodule update --remote --init --recursive' manually"
+		noSubmodules=true
+	fi
 
-fi
 
-if [[ "$*" != *"--skip-scripts"* && "$*" != *"--skip-bash-scripts"* ]]; then
-
-	echo "Running SSH Setup Script"
-	$HOME/.ssh/setup.sh
-	echo "Finished SSH Setup"
-
-	config config --local status.showUntrackedFiles no
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
 fi
 
-if [[ "$*" != *"--skip-scripts"* && "$*" != *"--skip-win-scripts"* ]]; then
-	if command -v wslpath -w $HOME &> /dev/null
-	then
-		echo "Windows Subsystem for Linux Detected. Running windows setup script"
-		wslhome=$(wslpath -w $HOME)
-		force=""
+if [[ "$*" != *"--skip-scripts"* ]]; then
+	printf "\n> Running Postinstall Scripts\n"
 
-		if ["$*" != *"--force-win-script"*]; then
-			force="-Force"
+	if [[ noSubmodules == true ]]; then
+		echo "Cannot run some scripts due to missing submodules."
+	else
+		echo "Running SSH Setup Script"
+		output="$(sh $HOME/.ssh/setup.sh 2>&1)"
+		if [[ $? == 0 ]]; then
+			echo "Finished SSH Setup"
+		else
+			echo "There was a problem running SSH script. See output below:"
+			echo "$output"
 		fi
-
-		powershell.exe "$wslhome\.cfg\linkdir.ps1 -Wsl -HomePath $wslhome $force"
+		
 	fi
 fi
 
-echo "Finished Setting up dotfile Environment."
+printf "\nFinished Setting up dotfiles. run '. .bashrc' to initialize shell\n"
