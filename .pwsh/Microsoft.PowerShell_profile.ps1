@@ -36,6 +36,66 @@ function ConvertMp4ToMkv {
   ffmpeg -i "$InFile" -vcodec copy -acodec copy "$OutFile"
 }
 
+function GetFileExtension {
+	param([string]$Path)
+	return (Split-Path -Path $Path -Leaf).Split(".")[1];
+}
+
+function Convert {
+	param(
+		[string]$From,
+		[string]$To
+	)
+
+	Write-Host "Converting $From -> $To"
+
+	if(-not $From) {
+		throw "No From value was provided"
+	}
+
+	if(-not $To) {
+		throw "No to value was provided"
+	}
+
+	$From = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($From)
+	$To = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($To)
+
+	Add-Type -AssemblyName System.Drawing
+	$imageFormat = "System.Drawing.Imaging.ImageFormat" -as [type]
+
+	$supportedFormats = @{
+		"jpg" = $imageFormat::Jpeg
+		"jpeg" = $imageFormat::Jpeg
+		"png" = $imageFormat::Png
+		"bmp" = $imageFormat::Bmp
+		"exif" = $imageFormat::Exif
+		"heif" = $imageFormat::Heif
+		"ico" = $imageFormat::Icon
+		"tif" = $imageFormat::Tiff
+		"tiff" = $imageFormat::Tiff
+		"webp" = $imageFormat::Webp
+	}
+
+	$fromType = $supportedFormats[(GetFileExtension $From).ToLower()]
+	$toType = $supportedFormats[(GetFileExtension $To).ToLower()]
+
+	if(-not $fromType) {
+		throw "From value isn't a valid file type"
+	}
+
+	if(-not $toType) {
+		throw "To value isn't a valid file type"
+	}
+
+	$image = [Drawing.Image]::FromFile($From)
+
+	if($image) {
+		$image.Save($To, $toType)
+	} else {
+		Write-Error "There was a problem Loading the image. See output above"
+	} 
+}
+
 function config()
 {
 	&git --git-dir=$HOME/.cfg/ --work-tree=$HOME $args
