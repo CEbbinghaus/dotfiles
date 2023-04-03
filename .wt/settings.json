@@ -138,6 +138,14 @@
                 "tabTitle": "Nushell"
             },
             {
+                "closeOnExit": "always",
+                "commandline": "ssh deck@192.168.0.240 -i ~/.ssh/steamdeck",
+                "guid": "{483f324a-8444-471f-8386-0cfa465f3372}",
+                "hidden": false,
+                "icon": null,
+                "name": "Steamdeck"
+            },
+            {
                 "guid": "{1777cdf0-b2c4-5a63-a204-eb60f349ea7c}",
                 "hidden": false,
                 "name": "Alpine",

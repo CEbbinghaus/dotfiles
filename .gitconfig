@@ -14,6 +14,7 @@
 	longpaths = true
 	fsmonitor = true
 	untrackedcache = true
+	ignorecase = false
 
 [features]
 	manyFiles = true
