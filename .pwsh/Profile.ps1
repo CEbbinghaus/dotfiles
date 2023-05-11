@@ -1,11 +1,20 @@
 Clear-Host *> $null
 
+# We override the $Profile variable to allow for continued easy access to thsi file from any poewrshell instance
+$Profile = "$($MyInvocation.MyCommand.Path)"
+
 # If Clear-Host fails we know that this is a non GUI environment so we don't need to load any of the profile.
 if(-not $?) {
 	return;
 }
 
-Invoke-Expression (&starship init powershell) -ErrorAction SilentlyContinue
+. "$PSScriptRoot/Aliases.ps1"
+
+if(Get-Command "starship" -ErrorAction SilentlyContinue)
+{
+	Invoke-Expression (&starship init powershell) -ErrorAction SilentlyContinue
+}
+
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 if($PWD.Path -eq "C:\WINDOWS\system32") {
