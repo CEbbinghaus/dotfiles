@@ -71,7 +71,8 @@ $links = (
 	(".pwsh", "$HOME\Documents", 'WindowsPowerShell', $true),
 	(".ssh", "$HOME", '.ssh', $true),
   	(".gitconfig", "$HOME", '.gitconfig', $false),
-  	(".nu", "$env:APPDATA", 'nushell', $true)
+  	(".nu", "$env:APPDATA", 'nushell', $true),
+	(".config/nvim", "$env:LOCALAPPDATA", "nvim", $true) 
 )
 
 $BackupPath = "$HOME\Backup\__LINKBACKUP__"
