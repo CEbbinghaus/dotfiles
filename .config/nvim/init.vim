@@ -17,11 +17,37 @@ inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
+" Map Ctrl+Backspace to delete previous word
+inoremap <C-BS> <C-W>
+inoremap <C-H> <C-W>
+
+" Map Ctrl+Delete to delete next word
+inoremap <C-Del> X<Esc>lbce
+
+set number
+set cursorline
+hi CursorLineNr guifg=#af00af
+
 " Load Plug
 call plug#begin()
 
-Plug 'ethanholz/nvim-lastplace'
+" Theme
 Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+
+" Saves last location
+Plug 'ethanholz/nvim-lastplace'
+
+" Syntax Highlighting
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+" File Browser
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim'
+
+" Git blame per line
+Plug 'f-person/git-blame.nvim'
 
 call plug#end()
 
