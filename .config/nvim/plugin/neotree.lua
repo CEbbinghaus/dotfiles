@@ -76,7 +76,15 @@ require"neo-tree".setup({
         enable_git_status = true,
         enable_diagnostics = false,
         open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes 
-        sort_function = SortFiles, -- Custom sorting function
+	
+	-- For the tabs at the top of the file picker
+	source_selector = {
+            winbar = true,
+	    content_layout = "center",
+	    tabs_layout = "active",
+	    show_scrolled_off_parent_node=true
+        },
+	sort_function = SortFiles, -- Custom sorting function
         default_component_configs = {
           container = {
             enable_character_fade = true
@@ -96,16 +104,19 @@ require"neo-tree".setup({
             expander_highlight = "NeoTreeExpander",
           },
           icon = {
-            folder_closed = "",
-            folder_open = "",
-            folder_empty = "ﰊ",
+            -- folder_closed = "",
+	    folder_closed = "",
+            -- folder_open = "",
+	    folder_open = "",
+            -- folder_empty = "ﰊ",
+	    folder_empty = "",
             -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
             -- then these will never be used.
             default = "*",
             highlight = "NeoTreeFileIcon"
           },
           modified = {
-            symbol = "[+]",
+            symbol = "+",
             highlight = "NeoTreeModified",
           },
           name = {
@@ -134,7 +145,16 @@ require"neo-tree".setup({
         -- see `:h neo-tree-global-custom-commands`
         commands = {},
         window = {
+	  -- when set to "float" it will hover over the text buffer when its open
           position = "left",
+	  popup = {
+	  	size = {
+			height = "100%",
+			width = "25%"
+		},
+		position = "0%",
+		border = "shadow"
+	  },
           width = 40,
           mapping_options = {
             noremap = true,
