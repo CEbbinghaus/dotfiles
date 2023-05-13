@@ -1,9 +1,7 @@
-" Install vim-plug if not already
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+
+
+
+
 
 "Wraps cursor up and down lines https://vim.fandom.com/wiki/Automatically_wrap_left_and_right
 set whichwrap+=<,>,h,l,[,]
@@ -34,12 +32,12 @@ vnoremap <M-J> :t '><CR>gv=gv
 vnoremap <M-K> :t '<-1<CR>gv=gv
 
 " Duplicate lines up/down with Alt+Shift+Up/Down
-nnoremap <M-S-Down> :m .<CR>==
-nnoremap <M-S-Up> :m .-1<CR>==
-inoremap <M-S-Down> <Esc>:m .<CR>==gi
-inoremap <M-S-Up> <Esc>:m .-1<CR>==gi
-vnoremap <M-S-Down> :m '><CR>gv=gv
-vnoremap <M-S-Up> :m '<-1<CR>gv=gv
+nnoremap <M-S-Down> :t .<CR>==
+nnoremap <M-S-Up> :t .-1<CR>==
+inoremap <M-S-Down> <Esc>:t .<CR>==gi
+inoremap <M-S-Up> <Esc>:t .-1<CR>==gi
+vnoremap <M-S-Down> :t '><CR>gv=gv
+vnoremap <M-S-Up> :t '<-1<CR>gv=gv
 
 " Record next key litterally and insert it 
 inoremap <M-r> <C-V>
@@ -80,42 +78,13 @@ set number
 set cursorline
 hi CursorLineNr guifg=#af00af
 
-if system("where powershell") != "" 
-	set shell=powershell
+" It seems that setting the shell to powershel breaks plughttps://www.reddit.com/r/neovim/comments/gbb2g3/wierd_vimplug_error_messages/
+" if system("where powershell") != "" 
+"	set shell=powershell
+"endif
+finish
+
+if !has('nvim')
+	finish
 endif
-
-" Load Plug
-call plug#begin()
-
-" Theme
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-
-" Saves last location
-Plug 'ethanholz/nvim-lastplace'
-
-" Syntax Highlighting
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-" File Browser
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-tree/nvim-web-devicons'
-Plug 'MunifTanjim/nui.nvim'
-Plug 'nvim-neo-tree/neo-tree.nvim'
-
-" Git blame per line
-Plug 'f-person/git-blame.nvim'
-
-" Telescope fzf 
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
-
-call plug#end()
-
-" Neovim specific commands
-if has('nvim')
-	" Loads Lua configuration
-	" let luaInit = stdpath('config') . 'linit'
-	lua require('config')
-endif
-
-colorscheme catppuccin-macchiato " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 

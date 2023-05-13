@@ -81,7 +81,7 @@ require"neo-tree".setup({
 	source_selector = {
             winbar = true,
 	    content_layout = "center",
-	    tabs_layout = "active",
+	    tabs_layout = "equal", -- active
 	    show_scrolled_off_parent_node=true
         },
 	sort_function = SortFiles, -- Custom sorting function
