@@ -1,13 +1,8 @@
 
-
-
-
-
 "Wraps cursor up and down lines https://vim.fandom.com/wiki/Automatically_wrap_left_and_right
 set whichwrap+=<,>,h,l,[,]
 
 "Allows moving lines up/down with Alt+J/K https://vim.fandom.com/wiki/Moving_lines_up_or_down#:~:text=In%20normal%20mode%20or%20in,to%20move%20the%20block%20up.
-
 nnoremap <M-j> :m .+1<CR>==
 nnoremap <M-k> :m .-2<CR>==
 inoremap <M-j> <Esc>:m .+1<CR>==gi
@@ -55,7 +50,7 @@ inoremap <C-s> <Esc>:w <CR>==gi
 vnoremap <C-s> <Esc>:w <CR>==gv=gv
 
 " Escape terminal mode by hitting Esc
-tnoremap <Esc> <C-\><C-N>
+" tnoremap <Esc> <C-\><C-N>
 
 
 " Closes the current buffer and opens the next to ensure that neo-tree doesn't
@@ -81,10 +76,4 @@ hi CursorLineNr guifg=#af00af
 " It seems that setting the shell to powershel breaks plughttps://www.reddit.com/r/neovim/comments/gbb2g3/wierd_vimplug_error_messages/
 " if system("where powershell") != "" 
 "	set shell=powershell
-"endif
-finish
-
-if !has('nvim')
-	finish
-endif
-
+" endif
