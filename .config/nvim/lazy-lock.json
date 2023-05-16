@@ -10,6 +10,7 @@
   "neo-tree.nvim": { "branch": "v2.x", "commit": "541f5c92d2492041afb354e2df6e74809094b051" },
   "neoconf.nvim": { "branch": "main", "commit": "4b82da74f904de5aed43ee4320f0f89a703128ec" },
   "neodev.nvim": { "branch": "main", "commit": "0c5d6c2ac2fadebedf08282d9403ef6c3dc31896" },
+  "neovim-session-manager": { "branch": "master", "commit": "be04daecc27de3f7a2d2f61f94bee8a66758bd6f" },
   "nui.nvim": { "branch": "main", "commit": "698e75814cd7c56b0dd8af4936bcef2d13807f3c" },
   "nvim-cmp": { "branch": "main", "commit": "d153771162bd9795d9f7142df5c674b61066a585" },
   "nvim-lastplace": { "branch": "main", "commit": "75a2b78bdbbd20467d499defceb5b20c0967a1ca" },

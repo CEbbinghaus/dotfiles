@@ -38,6 +38,8 @@ require("lazy").setup({
 	-- Git blame per line
 	'f-person/git-blame.nvim',
 
+	'Shatur/neovim-session-manager'
+
 })
 
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
