@@ -17,51 +17,33 @@ vim.opt.rtp:prepend(lazypath)
 -- Leader character used for key combinations
 vim.g.mapleader = " "
 
+
 require("lazy").setup({
+	-- global dependencies
+	'nvim-lua/plenary.nvim',
 	-- Theme
 	{ "catppuccin/nvim",                 name = "catppuccin" },
+	-- configuration manager for both global & local configurations
+	"folke/neoconf.nvim",
 	-- Saves last location
 	"ethanholz/nvim-lastplace",
 	-- Syntax Highlighting
-	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', opts = require 'plugins.config.treesitter' },
 	-- Mason is a automatic LSP,DAP,linter installer
 	-- :MasonUpdate updates registry contents:
 	{ 'williamboman/mason.nvim',         build = ':MasonUpdate' },
-	-- LSP config
-	{
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v2.x',
-		dependencies = {
-			-- LSP Support
-			{ 'neovim/nvim-lspconfig' }, -- Required
-			{
-				-- Optional
-				'williamboman/mason.nvim',
-				build = function()
-					pcall(vim.cmd, 'MasonUpdate')
-				end,
-			},
-			{ 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
-			-- Autocompletion
-			{ 'hrsh7th/nvim-cmp' }, -- Required
-			{ 'hrsh7th/cmp-nvim-lsp' }, -- Required
-			{ 'L3MON4D3/LuaSnip' }, -- Required
-		}
-	},
-
-	-- File Browser
-	'nvim-lua/plenary.nvim',
-	'nvim-tree/nvim-web-devicons',
-	'MunifTanjim/nui.nvim',
-	'nvim-neo-tree/neo-tree.nvim',
+	{ import = "plugins" },
 
 	-- Git blame per line
 	'f-person/git-blame.nvim',
 
-	-- Telescope fzf
-	{ 'nvim-telescope/telescope.nvim', tag = '0.1.1' }
 })
+
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
+-- Configure neoconf before anything else
+require 'neoconf'.setup{}
 
 vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
 
@@ -73,20 +55,40 @@ vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
 
 vim.cmd.colorscheme('catppuccin-macchiato')
 
+require 'neodev'.setup{}
+
 local lsp = require('lsp-zero').preset({})
 
 -- Setting up lspconfig with lua_ls https://github.com/VonHeikemen/lsp-zero.nvim/blob/v2.x/doc/md/tutorial.md
 local lspconfig = require('lspconfig')
 lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
+local schemastore = require 'schemastore'
+lspconfig.jsonls.setup {
+  settings = {
+    json = {
+      schemas = schemastore.json.schemas(),
+      validate = { enable = true },
+    },
+  },
+}
+
+lspconfig.yamlls.setup {
+  settings = {
+    yaml = {
+      schemas = schemastore.yaml.schemas(),
+    },
+  },
+}
+
 lsp.on_attach(function(client, bufnr)
 	lsp.default_keymaps({ buffer = bufnr })
 end)
 
 require('mason-lspconfig').setup_handlers({
-  function(server)
-    lspconfig[server].setup({})
-  end,
+	function(server)
+		lspconfig[server].setup({})
+	end,
 })
 
 lsp.setup()

@@ -1,0 +1,28 @@
+{
+    "workspace.library": [
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neodev.nvim\\types\\stable",
+        "C:\\Users\\cebbinghaus\\scoop\\apps\\neovim\\0.9.0\\share\\nvim\\runtime\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neoconf.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\nvim-lspconfig\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\nui.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\nvim-treesitter\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\mason.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\catppuccin\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\nvim-lastplace\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neo-tree.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neodev.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\nvim-cmp\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\git-blame.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\cmp-nvim-lsp\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\telescope.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\plenary.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\LuaSnip\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\lsp-zero.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\nvim-web-devicons\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\mason-lspconfig.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\lazy.nvim\\lua",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neoconf.nvim\\types",
+        "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neoconf.nvim\\types/lua",
+        "${3rd}/luv/library"
+    ]
+}

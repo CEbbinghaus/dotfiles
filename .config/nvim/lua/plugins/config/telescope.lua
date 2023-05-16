@@ -1,4 +1,4 @@
-require 'telescope'.setup {
+return {
 	defaults = {
 		file_ignore_patterns = { "node_modules" },
 		-- Default configuration for telescope goes here:
@@ -22,10 +22,6 @@ require 'telescope'.setup {
 		-- builtin picker
 	},
 	extensions = {
-		-- Your extension configuration goes here:
-		-- extension_name = {
-		--   extension_config_key = value,
-		-- }
-		-- please take a look at the readme of the extension you want to configure
+		["'ui-select"] = { },
 	}
 }

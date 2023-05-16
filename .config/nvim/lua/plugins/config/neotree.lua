@@ -65,7 +65,7 @@ local function SortFiles(a, b)
 	return a.path > b.path
 end
 
-require "neo-tree".setup({
+return {
 	close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
 	popup_border_style = "rounded",
 	enable_git_status = true,
@@ -296,4 +296,4 @@ require "neo-tree".setup({
 			}
 		}
 	}
-})
+}
