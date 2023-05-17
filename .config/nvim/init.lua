@@ -19,16 +19,31 @@ vim.g.mapleader = " "
 
 
 require("lazy").setup({
-	-- global dependencies
-	'nvim-lua/plenary.nvim',
 	-- Theme
-	{ "catppuccin/nvim",                 name = "catppuccin" },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		lazy = false,
+		priority = 1000
+	},
+	-- global dependencies
+	{
+		"folke/neoconf.nvim",
+		lazy = false,
+		priority = 999,
+		config = function(_, opts)
+			require 'neoconf'.setup(opts)
+		end
+	},
+	{
+		'nvim-lua/plenary.nvim',
+		lazy = false
+	},
 	-- configuration manager for both global & local configurations
-	"folke/neoconf.nvim",
 	-- Saves last location
 	"ethanholz/nvim-lastplace",
 	-- Syntax Highlighting
-	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', opts = require 'plugins.config.treesitter' },
+	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', opts = function() return require 'plugins.config.treesitter' end },
 	-- Mason is a automatic LSP,DAP,linter installer
 	-- :MasonUpdate updates registry contents:
 	{ 'williamboman/mason.nvim',         build = ':MasonUpdate' },
@@ -40,7 +55,7 @@ require("lazy").setup({
 
 	'Shatur/neovim-session-manager'
 
-})
+}, require 'plugins.config.lazy')
 
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
