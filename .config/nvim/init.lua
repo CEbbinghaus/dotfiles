@@ -39,40 +39,45 @@ require("lazy").setup({
 		'nvim-lua/plenary.nvim',
 		lazy = false
 	},
-	-- configuration manager for both global & local configurations
 	-- Saves last location
-	"ethanholz/nvim-lastplace",
+	{
+		"ethanholz/nvim-lastplace",
+		event = "BufAdd"
+	},
 	-- Syntax Highlighting
-	{ 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', opts = function() return require 'plugins.config.treesitter' end },
+	{
+		'nvim-treesitter/nvim-treesitter',
+		build = ':TSUpdate',
+		opts = function() return require 'plugins.config.treesitter' end,
+		event = "BufAdd"
+	},
 	-- Mason is a automatic LSP,DAP,linter installer
 	-- :MasonUpdate updates registry contents:
-	{ 'williamboman/mason.nvim',         build = ':MasonUpdate' },
-
+	{
+		'williamboman/mason.nvim',
+		build = ':MasonUpdate'
+	},
 	{ import = "plugins" },
 
 	-- Git blame per line
 	'f-person/git-blame.nvim',
 
-	'Shatur/neovim-session-manager'
-
+	{
+		'Shatur/neovim-session-manager',
+		cmd = "SessionManager"
+	}
 }, require 'plugins.config.lazy')
 
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 -- Configure neoconf before anything else
-require 'neoconf'.setup{}
+require 'neoconf'.setup {}
 
 vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<Leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<Leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<Leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
-
 vim.cmd.colorscheme('catppuccin-macchiato')
 
-require 'neodev'.setup{}
+require 'neodev'.setup {}
 
 local lsp = require('lsp-zero').preset({})
 
@@ -82,20 +87,20 @@ lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 
 local schemastore = require 'schemastore'
 lspconfig.jsonls.setup {
-  settings = {
-    json = {
-      schemas = schemastore.json.schemas(),
-      validate = { enable = true },
-    },
-  },
+	settings = {
+		json = {
+			schemas = schemastore.json.schemas(),
+			validate = { enable = true },
+		},
+	},
 }
 
 lspconfig.yamlls.setup {
-  settings = {
-    yaml = {
-      schemas = schemastore.yaml.schemas(),
-    },
-  },
+	settings = {
+		yaml = {
+			schemas = schemastore.yaml.schemas(),
+		},
+	},
 }
 
 lsp.on_attach(function(client, bufnr)

@@ -15,4 +15,13 @@ map.n["<leader>o"] = {
     end, "Focus File Explorer" } 
 
 
+local builtin = require('telescope.builtin')
+map.n['<leader>f'] = { desc = "󰍉 Fuzzy Finder" }
+map.n['<leader>ff'] = { builtin.find_files, "Find Files" }
+map.n['<leader>fg'] = { builtin.live_grep, "Live Grep" }
+map.n['<leader>fb'] = { builtin.buffers, "Find Buffer" }
+map.n['<leader>fh'] = { builtin.help_tags, "Help Tags" }
+
+
+
 return require 'neoconf'.get("nvim.map", map);
