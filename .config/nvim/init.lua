@@ -39,6 +39,12 @@ require("lazy").setup({
 		'nvim-lua/plenary.nvim',
 		lazy = false
 	},
+	{
+		'glepnir/dashboard-nvim',
+		event = 'VimEnter',
+		opts = function() return require 'plugins.config.dashboard' end,
+		dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+	},
 	-- Saves last location
 	{
 		"ethanholz/nvim-lastplace",
@@ -55,7 +61,8 @@ require("lazy").setup({
 	-- :MasonUpdate updates registry contents:
 	{
 		'williamboman/mason.nvim',
-		build = ':MasonUpdate'
+		build = ':MasonUpdate',
+		cmd = "MasonUpdate"
 	},
 	{ import = "plugins" },
 
