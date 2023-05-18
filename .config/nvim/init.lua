@@ -81,6 +81,9 @@ vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 require 'neoconf'.setup {}
 
 vim.keymap.set('n', '<C-b>', '<Cmd>Neotree toggle<CR>')
+vim.keymap.set('n', '<M-F>', '<cmd>LspZeroFormat<cr>')
+vim.keymap.set('i', '<M-F>', '<cmd>LspZeroFormat<cr>')
+vim.keymap.set('v', '<M-F>', '<cmd>LspZeroFormat<cr>')
 
 vim.cmd.colorscheme('catppuccin-macchiato')
 
@@ -120,4 +123,5 @@ require('mason-lspconfig').setup_handlers({
 	end,
 })
 
+lsp.setup()
 lsp.setup()

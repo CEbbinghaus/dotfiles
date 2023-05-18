@@ -6,6 +6,7 @@ return {
 	{
 		'VonHeikemen/lsp-zero.nvim',
 		branch = 'v2.x',
+		cmd = "LspZeroFormat",
 		dependencies = {
 			'neovim/nvim-lspconfig',
 

@@ -28,4 +28,6 @@ map.n['<leader>s'] = { desc = "  Session" }
 map.n['<leader>so'] = { "<cmd>SessionManager load_session<cr>", "Load Session" }
 map.n['<leader>ss'] = { "<cmd>SessionManager save_current_session<cr>", "Save Session" }
 
+map.n['<leader>n'] = { "<cmd>enew<cr>", "New File" }
+
 return require 'neoconf'.get("nvim.map", map);
