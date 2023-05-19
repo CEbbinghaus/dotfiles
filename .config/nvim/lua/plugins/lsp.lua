@@ -1,34 +1,51 @@
 return {
-	'b0o/schemastore.nvim',
-	"folke/neodev.nvim",
-	"b0o/schemastore.nvim",
-	"L3MON4D3/LuaSnip",
 	{
-		'VonHeikemen/lsp-zero.nvim',
-		branch = 'v2.x',
-		cmd = "LspZeroFormat",
-		dependencies = {
-			'neovim/nvim-lspconfig',
+		'neovim/nvim-lspconfig',
+		config = function()
+			require 'plugins.config.lspconfig'
+		end,
+		event = "BufAdd",
+		dependencies =
+		{
+			{
+				"folke/neoconf.nvim",
+				--lazy = false,
+				--priority = 999,
+				config = function(_, opts)
+					require 'neoconf'.setup()
+				end
+			},
 
+			-- { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
+			"folke/neodev.nvim",
+			'b0o/schemastore.nvim',
 			{
 				"williamboman/mason-lspconfig.nvim",
 				cmd = { "LspInstall", "LspUninstall" },
+				config = true,
+				dependencies =
+				{
+					{
+						'williamboman/mason.nvim',
+						build = ':MasonUpdate',
+						config = true,
+					}
+				}
 			},
-			-- Autocompletion
 			{
 				'hrsh7th/nvim-cmp',
-				event = 'InsertEnter',
+				event = { 'InsertEnter', 'BufAdd' },
 				opts = function()
 					return require 'plugins.config.cmp'
 				end,
 				dependencies =
 				{
+					"hrsh7th/cmp-buffer",
 					"hrsh7th/cmp-nvim-lsp",
 					"saadparwaiz1/cmp_luasnip",
-					"hrsh7th/cmp-buffer"
+					"L3MON4D3/LuaSnip",
 				}
-			},
+			}
 		}
 	}
-
 }

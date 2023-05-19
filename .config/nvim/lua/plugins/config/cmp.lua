@@ -45,13 +45,9 @@ return {
 		entries = { name = 'custom', selection_order = 'near_cursor' }
 	},
 	formatting = {
-		-- fields = { "kind", "abbr" },
+		fields = { "kind", "abbr" },
 		format = function(_, vim_item)
-			-- return (nil).Test()
-			-- vim_item.kind = cmp_kinds[vim_item.kind] or ""
-			vim_item.item_kind = "TESTDWA"
-			vim_item.abbr = "TEAD"
-			vim_item.menu = "TDWA"
+			vim_item.kind = cmp_kinds[vim_item.kind] or ""
 			return vim_item
 		end,
 	},
@@ -61,8 +57,8 @@ return {
 		end,
 	},
 	window = {
-		completion = cmp.config.window.bordered({border = "double"}),
-		documentation = cmp.config.window.bordered({border = "double"}),
+		-- completion = cmp.config.window.bordered({border = "single"}),
+		-- documentation = cmp.config.window.bordered({border = "single"}),
 	},
 	mapping = cmp.mapping.preset.insert({
 		['<C-b>'] = cmp.mapping.scroll_docs(-4),

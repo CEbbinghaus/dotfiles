@@ -13,6 +13,6 @@ return {
 				whichkey.register(keys, {mode = mode})
 			end
 		end,
-		event = "VimEnter",
+		event = "UIEnter",
 	},
 }
