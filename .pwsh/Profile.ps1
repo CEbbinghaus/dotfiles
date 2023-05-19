@@ -195,6 +195,11 @@ function Link {
 # function Global:prompt {
 # }
 
+function GlobalProtect
+{
+	Start-Job {  &"~/services/GlobalProtect.ps1" *> $null } *> $null
+}
+
 function CopyAnalyzers {
 	Push-Location /git/wtg/CargoWise/Shared/CargoWise.Analyzers
 	dotnet build *> $null
