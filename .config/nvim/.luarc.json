@@ -23,6 +23,8 @@
         "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\lazy.nvim\\lua",
         "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neoconf.nvim\\types",
         "C:\\Users\\cebbinghaus\\AppData\\Local\\nvim-data\\lazy\\neoconf.nvim\\types/lua",
+        "${3rd}/luv/library",
+        "${3rd}/luv/library",
         "${3rd}/luv/library"
     ]
 }

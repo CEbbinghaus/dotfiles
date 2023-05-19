@@ -54,7 +54,10 @@ require("lazy").setup({
 	{
 		'nvim-treesitter/nvim-treesitter',
 		build = ':TSUpdate',
-		opts = function() return require 'plugins.config.treesitter' end,
+		config = function()
+			return require 'nvim-treesitter.configs'.setup(require 'plugins.config.treesitter')
+		end,
+		cmd = {"TSUpdate", "TSInstall"},
 		event = "BufAdd"
 	},
 	-- Mason is a automatic LSP,DAP,linter installer
@@ -119,7 +122,7 @@ end)
 
 require('mason-lspconfig').setup_handlers({
 	function(server)
-		lspconfig[server].setup({})
+		lspconfig[server].setup({ capabilities = require('cmp_nvim_lsp').default_capabilities() })
 	end,
 })
 
