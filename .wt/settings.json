@@ -20,6 +20,10 @@
             "keys": "ctrl+shift+f"
         },
         {
+            "command": "unbound",
+            "keys": "ctrl+t"
+        },
+        {
             "command": 
             {
                 "action": "splitPane",
@@ -27,6 +31,13 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": 
+            {
+                "action": "quakeMode"
+            },
+            "keys": "alt+enter"
         }
     ],
     "alwaysShowTabs": true,
@@ -52,7 +63,8 @@
             "opacity": 50,
             "padding": "20, 20, 0, 0",
             "snapOnInput": true,
-            "useAcrylic": true
+            "useAcrylic": true,
+            "useAtlasEngine": true
         },
         "list": 
         [
