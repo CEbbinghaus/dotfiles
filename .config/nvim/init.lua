@@ -38,6 +38,12 @@ require("lazy").setup({
 		opts = function() return require 'plugins.config.dashboard' end,
 		dependencies = { 'nvim-tree/nvim-web-devicons' }
 	},
+	{
+		"folke/neoconf.nvim",
+		lazy = false,
+		priority = 999,
+		config = false
+	},
 	-- Saves last location
 	{
 		"ethanholz/nvim-lastplace",

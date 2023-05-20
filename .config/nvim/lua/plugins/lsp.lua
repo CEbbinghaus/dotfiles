@@ -2,20 +2,12 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		config = function()
+			require 'neoconf'.setup()
 			require 'plugins.config.lspconfig'
 		end,
 		event = "BufAdd",
 		dependencies =
 		{
-			{
-				"folke/neoconf.nvim",
-				--lazy = false,
-				--priority = 999,
-				config = function(_, opts)
-					require 'neoconf'.setup()
-				end
-			},
-
 			-- { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
 			"folke/neodev.nvim",
 			'b0o/schemastore.nvim',
