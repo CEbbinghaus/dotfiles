@@ -42,7 +42,7 @@ symbol = "-"
 [cmd_duration]	
 style = "fg:black bg:white"
 min_time = 1
-format = "[ 祥$duration ]($style)"
+format = "[ 󰔚 $duration ]($style)"
 
 [time]
 disabled = false
@@ -56,8 +56,8 @@ error_symbol = "[██    ](fg:black bg:#FF8582)[](#FF8582)"
 
 [memory_usage]
 style = "white"
-symbol = ""
-format = "[ ](fg:#f78a40 bg:$style)[$symbol $ram_pct ](bg:$style fg:black)"
+symbol = "󰍛 "
+format = "[](fg:#f78a40 bg:$style)[ $symbol$ram_pct ](bg:$style fg:black)"
 threshold = 2
 disabled = false
 
@@ -70,7 +70,7 @@ read_only = " "
 
 [docker_context]
 style = "fg:black bg:#eb9606"
-symbol = "🐳  "
+symbol = "🐳"
 format = "[$symbol$context]($style)"
 
 [git_branch]
@@ -100,11 +100,12 @@ behind = "  ${count}"
 diverged = " נּ  ${ahead_count}  ${behind_count} "
 
 [golang]
-symbol = "ﳑ "
+symbol = " "
 style = "fg:black bg:blue"
 format = "[ ](fg:#f78a40 bg:$style)[$symbol$version]($style)[](fg:$style bg:#f78a40)"
 
 [nodejs]
+symbol = "󰎙 "
 style = "#aef27f"
 format = "[ ](fg:#f78a40 bg:$style)[ $symbol($version) ](fg:black bg:$style)[](fg:$style bg:#f78a40)"
 
@@ -114,12 +115,12 @@ style = "#eb9606"
 format = "[ ](fg:#f78a40 bg:$style)[$symbol$version](fg:black bg:$style)[](fg:$style bg:#f78a40)"
 
 [python]
-symbol = " "
+symbol = "󰌠 "
 style = "blue"
 format = "[ ](fg:#f78a40 bg:$style)[$symbol$pyenv_prefix$version$virtualenv](fg:fg:black bg:$style)[](fg:$style bg:#f78a40)"
 
 [rust]
-symbol=" "
+symbol="󱘗 "
 style = "#f74c00"
 format = "[ ](fg:#f78a40 bg:$style)[$symbol$version](fg:black bg:$style)[](fg:$style bg:#f78a40)"
 
