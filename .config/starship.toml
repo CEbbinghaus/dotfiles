@@ -31,7 +31,7 @@ add_newline = false
 # Pairs: [, ], [, ], [, ], [, ], [, ]
 # Top Bottom Boundary: ╭, ╰
 
-format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$memory_usage[>\u001b7${fill}<](fg:white)$cmd_duration$time\u001b8\n$character"""
+format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$memory_usage\e[D>${fill}<$cmd_duration$time\u001b8\n$character"""
 # continuation_prompt = "\u001b7|\n\u001b8+"
 # continuation_prompt = "\\033\\[1A"
 
@@ -47,7 +47,7 @@ format = "[ 󰔚 $duration ]($style)"
 [time]
 disabled = false
 style = "fg:black bg:white"
-format = '[$time ]($style)'
+format = '[$time  ]($style)'
 time_format = "%l:%M %p"
 
 [character]

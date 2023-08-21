@@ -38,8 +38,9 @@ local function SortFiles(a, b)
 
 	-- dotfiles/folders should be listed first alphhabetically
 	if isDotFileA ~= isDotFileB then
-		-- little hack since if its not A its B
 		assert(type(isDotFileA) == "boolean", "isDotFileA should be a bool")
+		assert(type(isDotFileB) == "boolean", "isDotFileB should be a bool")
+		-- little shorthand since if its not A its B
 		return isDotFileA
 	end
 
@@ -54,6 +55,7 @@ local function SortFiles(a, b)
 		if fileExtensionA == fileExtensionB then
 			return fileNameA < fileNameB
 		end
+		-- Another shorthand since if A isn't nil then its B
 		return fileExtensionA == nil
 	end
 

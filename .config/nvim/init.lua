@@ -15,10 +15,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 -- Leader character used for key combinations
 vim.g.mapleader = " "
+vim.o.guifont = "FiraCode Nerd Font:h14"
 
--- require()
-
--- local a = ({
+-- Initialize Plugins
 require("lazy").setup({
 	-- Theme
 	{
@@ -51,7 +50,10 @@ require("lazy").setup({
 	},
 	{
 		'numToStr/Comment.nvim',
-		event = "BufAdd"
+		event = "BufAdd",
+		config = function()
+			return require 'Comment'.setup{}
+		end
 	},
 	-- Syntax Highlighting
 	{
@@ -64,6 +66,12 @@ require("lazy").setup({
 		event = "BufAdd"
 	},
 	{ import = "plugins" },
+
+	{
+		'simrat39/symbols-outline.nvim',
+		config = true,
+		event = "LspAttach"
+	},
 
 	-- Git blame per line
 	'f-person/git-blame.nvim',
