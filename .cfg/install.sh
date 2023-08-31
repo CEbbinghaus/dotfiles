@@ -1,6 +1,6 @@
 #!/bin/sh
 
-clear
+clear 2> /dev/null
 
 args="$*"
 stringContainns() { case "$1" in *$2* ) return 0;; *) return 1;; esac ;}
@@ -132,7 +132,7 @@ then
 	echo "Couldn't Identify Host Distribution. "
 	exit 1
 else
-	echo "Identified Distro as $(determine_distro_name "$os")\n"
+	echo "Identified Distro as $(determine_distro_name "$os")"
 fi
 
 packages='git'
