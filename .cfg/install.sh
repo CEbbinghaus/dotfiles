@@ -1,6 +1,8 @@
 #!/bin/sh
 
-clear 2> /dev/null
+if command -v clear > /dev/null 2>&1; then
+	clear
+fi
 
 args="$*"
 stringContainns() { case "$1" in *$2* ) return 0;; *) return 1;; esac ;}
