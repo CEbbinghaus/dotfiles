@@ -75,7 +75,6 @@ determine_distro()
 {
 	if   [ -f /etc/debian_version ];	then os="deb"
 	elif [ -f /etc/alpine-release ];	then os="alp"
-	elif [ -f /etc/alpine-release ];	then os="alp"
 	elif [ -f /etc/centos-release ];	then os="cnt"
 	elif [ -f /etc/fedora-release ];	then os="fed"
 	elif [ -f /etc/arch-release   ];	then os="ach"
