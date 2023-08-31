@@ -25,4 +25,4 @@ alias wincode='cmd /c code .'
 alias imgsort=imagesorter.exe
 alias dotnet=dotnet.exe
 alias cmake=cmake.exe
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
