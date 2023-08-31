@@ -211,7 +211,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		mkdir -p "$HOME/.backup"
 	fi
 
-	/usr/bin/git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg > /tmp/dotinstaller.git_clone.log 2>&1
+	git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg > /tmp/dotinstaller.git_clone.log 2>&1
 
 	if [ $? -ne 0 ]; then
 		echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
@@ -225,7 +225,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		mv $HOME/.ssh $HOME/.backup/.ssh
 	fi
 
-	output=$(/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout 2>&1) # &> /dev/null
+	output=$(git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout 2>&1) # &> /dev/null
 
 	if [ $? -eq 0 ]; then
 		echo "Checked out config.";
@@ -252,12 +252,12 @@ if argumentsDoesntContain "--skip-clone"; then
 		
 		echo "Finished Backing up Config files"
 		
-		/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout > /dev/null 2>&1
+		git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout > /dev/null 2>&1
 		
 		echo "Checked out Files from Remote"
 	fi
 
-	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /tmp/dotinstaller.git_submodule_clone.log 2>&1
+	git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /tmp/dotinstaller.git_submodule_clone.log 2>&1
 
 	if [ $? -eq 0 ]; then
 		echo "Checked out submodules"
@@ -267,7 +267,7 @@ if argumentsDoesntContain "--skip-clone"; then
 	fi
 
 
-	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
+	git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showUntrackedFiles no
 
 fi
 
