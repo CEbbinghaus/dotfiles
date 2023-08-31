@@ -247,7 +247,7 @@ if argumentsDoesntContain "--skip-clone"; then
 			if stringContainns $el "/"; then
 				mkdir -p "$HOME/.config-backup/${el%*/*}"
 			fi
-			mv $el "$HOME/.config-backup/$el"
+			mv "$HOME/$el" "$HOME/.config-backup/$el"
 		done
 		
 		echo "Finished Backing up Config files"
