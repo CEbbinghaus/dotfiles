@@ -144,7 +144,7 @@ install_packages()
 
 		missingPackages=""
 		for pkg in $packages; do
-			if ! command -v $pkg > /dev/null 2> /dev/null;	then
+			if ! command -v $pkg > /dev/null 2>&1;	then
 				missingPackages="$missingPackages\n$pkg"
 			fi
 		done
@@ -167,9 +167,9 @@ install_packages()
     installSuccess=0
 
 	for pkg in $packages; do
-		if ! command -v $pkg > /dev/null 2> /dev/null; then
+		if ! command -v $pkg > /dev/null 2>&1; then
 			printf "Installing $pkg..."
-			$install "$pkg" > /dev/null 2> /dev/null
+			$install "$pkg" > /dev/null 2>&1
 			
 			if [ $? -ne 0 ]; then
 			    printf "ERR. Please Install it Manually"
@@ -211,7 +211,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		mkdir -p "$HOME/.backup"
 	fi
 
-	/usr/bin/git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg > /dev/null 2> /dev/null
+	/usr/bin/git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg > /dev/null 2>&1
 
 	if [ $? -ne 0 ]; then
 		echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
@@ -252,12 +252,12 @@ if argumentsDoesntContain "--skip-clone"; then
 		
 		echo "Finished Backing up Config files"
 		
-		/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout > /dev/null 2> /dev/null
+		/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout > /dev/null 2>&1
 		
 		echo "Checked out Files from Remote"
 	fi
 
-	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /dev/null 2> /dev/null
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /dev/null 2>&1
 
 	if [ $? -eq 0 ]; then
 		echo "Checked out submodules"
