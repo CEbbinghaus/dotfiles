@@ -257,7 +257,13 @@ if argumentsDoesntContain "--skip-clone"; then
 		echo "Checked out Files from Remote"
 	fi
 
+	# we save the current directory because submodule update has to be called fom the work tree directory
+	prevDir="$(pwd)"
+	cd "$HOME"
+
 	git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /tmp/dotinstaller.git_submodule_clone.log 2>&1
+
+	cd "$prevDir"
 
 	if [ $? -eq 0 ]; then
 		echo "Checked out submodules"
