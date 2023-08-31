@@ -297,4 +297,4 @@ if argumentsDoesntContain "--skip-scripts"; then
 	fi
 fi
 
-printf "\nFinished Setting up dotfiles. run '. .bashrc' to initialize shell\n"
+printf "\nFinished Setting up dotfiles. run '. ~/.bashrc' to initialize shell\n"
