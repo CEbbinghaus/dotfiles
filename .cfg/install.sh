@@ -211,7 +211,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		mkdir -p "$HOME/.backup"
 	fi
 
-	/usr/bin/git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg > /dev/null 2>&1
+	/usr/bin/git clone --recurse-submodules --bare https://github.com/CEbbinghaus/dotfiles $HOME/.cfg > /tmp/dotinstaller.git_clone.log 2>&1
 
 	if [ $? -ne 0 ]; then
 		echo "Cloning Failed, Exiting Setup. Check your Internet Connection and try again."
@@ -257,7 +257,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		echo "Checked out Files from Remote"
 	fi
 
-	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /dev/null 2>&1
+	/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME submodule update --remote --init --recursive > /tmp/dotinstaller.git_submodule_clone.log 2>&1
 
 	if [ $? -eq 0 ]; then
 		echo "Checked out submodules"
