@@ -3,6 +3,7 @@
 clear
 
 args="$*"
+stringContainns() { case "$1" in *$2* ) return 0;; *) return 1;; esac ;}
 argumentsContain() { case "$args" in *$1* ) return 0;; *) return 1;; esac ;}
 argumentsDoesntContain() { case "$args" in *$1* ) return 1;; *) return 0;; esac ;}
 
@@ -57,11 +58,11 @@ if argumentsContain '-h' || argumentsContain "--help"; then
 	exit 0
 fi
 
-# if [[ $(readlink /proc/$$/exe) == "/bin/busybox" ]]; then
+# if [ $(readlink /proc/$$/exe) = "/bin/busybox" ]; then
 # 	echo "Currently Running in Busybox. Things might break."
 # 	prompt "Do you want to proceed?"
 
-# 	if [[ $out == false ]]; then
+# 	if [ $out = false ]; then
 # 		exit 0
 # 	else
 # 		clear
@@ -234,7 +235,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		mkdir -p "$HOME/.config-backup"
 		echo "Backing up pre-existing dot files..";
 		
-		if [[ -d "$HOME/.ssh-backup" ]]; then
+		if [ -d "$HOME/.ssh-backup" ]; then
 			mv $HOME/.ssh-backup $HOME/.config-backup/.ssh
 		fi
 		
@@ -243,7 +244,7 @@ if argumentsDoesntContain "--skip-clone"; then
 		for el in $elements
 		do
 			echo "	Backing up $el"
-			if [[ $el == *"/"* ]]; then
+			if stringContainns $el "/"; then
 				mkdir -p "$HOME/.config-backup/${el%*/*}"
 			fi
 			mv $el "$HOME/.config-backup/$el"
