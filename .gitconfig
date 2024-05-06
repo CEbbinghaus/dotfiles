@@ -1,16 +1,17 @@
 [user]
 	email = git@cebbinghaus.com
 	name = CEbbinghaus
-	signinkey = 82A3CD50A639B60F
+	signingkey = ~/.ssh/github.pub
 
-#[commit]
-#	gpgsign = true
+[commit]
+	gpgsign = true
 
 [core]
 	editor = vim
 	filemode = false
 	autocrlf = false
 	whitespace = cr-at-eol
+	eol = lf
 	longpaths = true
 	fsmonitor = true
 	untrackedcache = true
@@ -32,12 +33,14 @@
 	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 	lg = !"git lg1"
 	lgb = !"git lgb2"
-
+	
 	fixref = !"git gc --prune=now"
 
 	# ammends all staged changes to the last commit
 	am = !"git commit --amend --no-edit"
 	
+	riff = range-diff @{u} @{1} @
+
 	# Get the current branch name (not so useful in itself, but used in
 	# other aliases)
 	branch-name = "!git rev-parse --abbrev-ref HEAD"
@@ -101,7 +104,6 @@
 	
 	# Retrieve the root directory of the current git folder
 	root = "rev-parse --show-toplevel"
-
 
 	# Fuzzy Show remote Branches
 	rb = "!git branch -r --format '%(refname:lstrip=2)'"
