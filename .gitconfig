@@ -6,6 +6,17 @@
 [commit]
 	gpgsign = true
 
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/allowed_signers
+
+[pull]
+	ff = only
+
+[merge]
+	directoryRenames = true
+
 [core]
 	editor = vim
 	filemode = false
@@ -120,10 +131,7 @@
 	fr = "!git rebase $(git branch | fzf -m --header 'Select Branch to rebase onto') | clear"
 	# Fuzzy Add files
 	fa = "!git add $(git ls-files --modified --others --exclude-standard | fzf -m) | clear"
-#[commit]
-#	gpgsign = true
-[pull]
-	ff = only
+
 
 [url "ssh://git@github.com/"]
 	pushInsteadOf = https://github.com/
