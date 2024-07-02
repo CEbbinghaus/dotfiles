@@ -16,7 +16,7 @@ param (
 	[switch]$SkipLinks
 )
 $Buckets = ("nerd-fonts")
-$Packages = ("sudo", "fzf", "starship", "nodejs", "openssh", "FiraCode-NF:global")
+$Packages = ("sudo", "fzf", "starship", "openssh", "FiraCode-NF:global")
 
 if ($Help) {
 	Write-Output "    Chris' Dotfile Installer
