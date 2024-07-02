@@ -135,3 +135,5 @@
 
 [url "ssh://git@github.com/"]
 	pushInsteadOf = https://github.com/
+[credential "https://devops.wisetechglobal.com"]
+	provider = generic
