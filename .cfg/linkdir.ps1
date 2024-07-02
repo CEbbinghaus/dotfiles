@@ -122,7 +122,8 @@ foreach($link in $links){
 		}
 	}
 	
-	Write-Output "Linking: $target"
+	# Ansi Escape code for extra context :3 (Only works in windows terminal)
+	Write-Output "Linking: $([char]27)]8;;$directory\$target$([char]27)\$target$([char]27)]8;;$([char]27)\ -> $source"
 
 	$dirarg = ""
 	if($isDirectory){

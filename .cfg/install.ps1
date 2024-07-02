@@ -16,7 +16,7 @@ param (
 	[switch]$SkipLinks
 )
 $Buckets = ("nerd-fonts")
-$Packages = ("gpg", "fzf", "starship", "sudo", "nodejs", "openssh", "FiraCode-NF")
+$Packages = ("sudo", "fzf", "starship", "nodejs", "openssh", "FiraCode-NF:global")
 
 if ($Help) {
 	Write-Output "    Chris' Dotfile Installer
@@ -167,7 +167,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 # Install All necessary Programms 
 if(-not $SkipInstall) {
-	Output "Installing Package Manager and Neccecary Packages"
+	Output "Installing Package Manager and Necessary Packages"
 	$ScoopExists = ExistsInPath scoop
 	$IndentationCount++
 	
@@ -213,7 +213,9 @@ if(-not $SkipInstall) {
 	{
 		Output "Adding Buckets"
 		$IndentationCount++
-		foreach($Bucket in $Buckets)
+		$ExistingBuckets = (scoop bucket list).Name
+		$MissingBuckets = $Buckets | Where-Object { $_ -notin $ExistingBuckets }
+		foreach($Bucket in $MissingBuckets)
 		{
 			Output "Adding Bucket: $Bucket..."
 			scoop bucket add $Bucket *> $null
@@ -231,17 +233,24 @@ if(-not $SkipInstall) {
 	Output "Installing Packages"
 	$IndentationCount++
 	foreach($Package in $Packages)
-	{
-		$PackageExists = ExistsInPath $Package
+	{	
+		$PackageName, $IsGlobal = $Package -split ":"
+
+		$PackageExists = ExistsInPath $PackageName
 		
 		if($PackageExists) {
-			Output "Package $Package Is Already installed. Skipping it"
+			Output "Package $PackageName Is Already installed. Skipping it"
 		}else{
-			scoop install $Package *> $null
+			if($IsGlobal) {
+				$(sudo scoop install $PackageName --global) *> $null
+			} else {
+				scoop install $PackageName *> $null
+			}
+
 			if($?) {
-				Output "Installed $Package"
+				Output "Installed $PackageName"
 			}else{
-				Output "Failed to install $Package"
+				Output "Failed to install $PackageName"
 			}
 		}
 	}
@@ -251,8 +260,6 @@ if(-not $SkipInstall) {
 }
 
 # Clone git Repository into Home Dir
-$Submodules = $False
-
 if(-not $SkipClone) {
 	Output "Cloning Git Repository"
 	$IndentationCount++
@@ -309,11 +316,16 @@ if(-not $SkipClone) {
 		# echo "Checked out Files from Remote"
 	}
 
+	config reset --hard *> $null
+
+	if(-not $?) {
+		Output "Failed to Reset repository"
+	}
+
 	config submodule update --remote --init --recursive *> $null
 
 	if($?){
 		Output "Checked out submodules"
-		$Submodules = $True
 	} else {
 		Output "Failed to check out Submodules"
 	}
@@ -327,10 +339,12 @@ if(-not $SkipClone) {
 if(-not $SkipScripts){
 	Output "Running Scripts"
 	$IndentationCount++
-	if($Submodules) {
+	if(Test-Path $HOME/.ssh/config) {
 		Output "Running SSH Setup Script"
 		&"$HOME\.ssh\setup.ps1" | Output
 		Output "Finished SSH Setup"
+	} else {
+		Output "Unable to run SSH scripts"
 	}
 	
 	$IndentationCount--
@@ -341,7 +355,7 @@ if(-not $SkipScripts){
 if(-not $SkipLinks) {
 	Output "Linking Files with Symbolic Links"
 	$IndentationCount++
-	&"$HOME\.cfg\linkdir.ps1" | Output
+	&"$HOME\.cfg\linkdir.ps1"
 	Output "Finished Linking Files"
 	$IndentationCount--
 }
