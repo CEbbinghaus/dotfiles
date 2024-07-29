@@ -20,7 +20,7 @@
 [core]
 	editor = vim
 	filemode = false
-	autocrlf = input
+	autocrlf = true
 	whitespace = cr-at-eol
 	eol = lf
 	longpaths = true
@@ -135,3 +135,5 @@
 
 [url "ssh://git@github.com/"]
 	pushInsteadOf = https://github.com/
+[credential "https://devops.wisetechglobal.com"]
+	provider = generic

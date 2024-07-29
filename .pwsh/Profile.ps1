@@ -145,8 +145,177 @@ function Format-FileSize() {
   Else                   {""}
 }
 
+function Link {
+	param (
+		[string]$Source,
+		[string]$Destination,
+		[switch]$Directory = $false,
+		[switch]$Hard = $false,
+		[switch]$Junction = $false
+	)
+
+	if (-not $Destination) {
+		Write-Error "Destination was not specified"
+		return
+	}
+
+	if (-not $Source) {
+		Write-Error "Source was not specified"
+		return
+	}
+
+	$isAdmin = IsAdministrator
+
+	if($isAdmin) {
+		Write-Output "Running as Administrator..."
+	}
+
+	$command = "mklink"
+
+	if($Directory) {
+		$command += " /D"
+	}
+	if($Hard) {
+		$command += " /H"
+	}
+	if($Junction) {
+		$command += " /J"
+	}
+
+	$command += " `"$($ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Destination))`" `"$(Resolve-Path $Source)`""
+
+	if($isAdmin) {
+		&cmd /c "$command"
+	} else {
+		sudo cmd /c "$command"
+	}
+}
+
+
 # function Global:prompt {
 # }
+
+function Get-Cache() {
+  param (
+    [switch]
+    $Release = $false,
+    [int]
+    [Alias("O")]
+    [ValidateRange(0, 3)]
+    $MatchLevel = 0
+  )
+
+  $version = if ( $Release ) { "Release" } else { "Debug" };
+  
+  if($MatchLevel -gt 0)
+  {
+    Write-Warning "Using a less accurate matcher might result in downloading the wrong build. Please verify the integrity manually after."
+  }
+
+  &git rev-parse --is-inside-work-tree *> $null
+  
+  # The previous command existed abnormally (We are not in a git repository)
+  if(-not $?)
+  {
+    Write-Output "Not in a git repository..."
+    return
+  }
+
+  $rootDir = git rev-parse --show-toplevel
+
+  $remoteUrl =  (git config --get remote.origin.url).Split("/");
+  $category = $remoteUrl[-3]
+  $project = $remoteUrl[-1]
+
+  $hash = git rev-parse HEAD
+
+  
+  $basePath = "\\datfiles.wtg.zone\CrikeyMonitor\QGLByProject\*"
+  $matchers = ("*$category`_$project`_$hash$version.zip", "*$project`_$hash$version.zip", "*$hash$version.zip", "*$hash*.zip")
+
+  $matcher = $matchers[$MatchLevel]
+
+  $files = Get-ChildItem -Path $basePath -Filter $matcher | Where-Object -FilterScript { $_.Length -gt 0 }
+
+  # No files could be found
+  if($files.Length -eq 0) {
+    Write-Output "Cache Miss. Sorry there is no cached build for this commit"
+    return
+  }
+ 
+  # TODO: Figure out what the fuck the best one of the files is
+
+  $hit = $files | Where-Object -FilterScript { $_.Name -like "C_git_wtg_*"} | Select-Object -First 1;
+
+  if( -not $hit ) {
+    Write-Warning "Could not find a match in the Preferred Location. Resorting to something else..."
+    $hit = $files[0] 
+  }
+  
+  $path = $hit.FullName;
+  
+  Write-Output "Cached build found at: `n    $path $(Format-FileSize $hit.Length)"
+
+  if (-not $path -like "*$version*" ) {
+    Write-Warning "!!! File Path did not contain $version"
+  }
+
+  $binDir = Join-Path $rootDir Bin
+
+  Write-Output "Deleting existing bin directory"
+
+  Remove-Item -Recurse -Force $binDir
+
+  Write-Output "Finished deleting bin directory"
+  Write-Output "Unzipping Build Artifact..."
+
+  # Expand-Archive $path -DestinationPath $binDir
+  # [System.IO.Compression.ZipFile]::ExtractToDirectory($path, $binDir)
+  &7z.exe e "$path" -o"$binDir" -y -bso0 -bsp0
+
+  Write-Output "Done"
+
+}
+
+function Authenticate {
+  Start-Job { emulator -avd Authenticator -noaudio *> $null } *> $null
+}
+
+function Clean {
+
+  $files = ("DBUPG_SkipUpgradeDbs.txt")
+
+  &git rev-parse --is-inside-work-tree *> $null
+  
+  # The previous command existed abnormally (We are not in a git repository)
+  if(-not $?)
+  {
+    Write-Output "Not in a git repository..."
+    return
+  }
+
+  $currentDir = $pwd.Path
+  $rootDir = git rev-parse --show-toplevel
+
+  Set-Location $rootDir
+  
+  foreach($file in $files) {
+    Move-Item "$file" "../"
+  }
+  Write-Output "Moved files out"
+  
+  Write-Output "Cleaning..."
+  &git clean -xfd *> $null
+  
+  foreach($file in $files) {
+    Move-Item "../$file" "./"
+  }
+  Write-Output "Moved files back in"
+  
+  Set-Location $currentDir
+  
+  Write-Output "Done"
+}
 
 function Array-To-Object
 {
