@@ -1,11 +1,12 @@
-Clear-Host *> $null
-
 # Set global encoding to UTF8
 $global:OutputEncoding = [Console]::InputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
  
-# We override the $Profile variable to allow for continued easy access to this file from any poewrshell instance
+# We override the $Profile variable to allow for continued easy access to this file from any powershell instance
+# Yes we are overriding a built in variable but that is just required in this case. Makes no sense to not
 $Profile = "$($MyInvocation.MyCommand.Path)"
+
+Clear-Host *> $null
 
 # If Clear-Host fails we know that this is a non GUI environment so we don't need to load any of the profile.
 if(-not $?) {
@@ -15,10 +16,12 @@ if(-not $?) {
 # Load aliases defined in a seperate file
 . "$PSScriptRoot/Aliases.ps1"
 
-if (Get-Command "oh-my-posh" -ErrorAction SilentlyContinue) {
-	oh-my-posh init pwsh --config "~/.config/oh-my-posh.json"| Invoke-Expression
-}
-elseif(Get-Command "starship" -ErrorAction SilentlyContinue) {
+
+# if (Get-Command "oh-my-posh" -ErrorAction SilentlyContinue) {
+# 	oh-my-posh init pwsh --config "~/.config/oh-my-posh.json"| Invoke-Expression
+# }
+# else
+if(Get-Command "starship" -ErrorAction SilentlyContinue) {
 	Invoke-Expression (&starship init powershell) -ErrorAction SilentlyContinue
 }
 

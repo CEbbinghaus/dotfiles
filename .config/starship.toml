@@ -31,33 +31,34 @@ add_newline = false
 # Pairs: [, ], [, ], [, ], [, ], [, ]
 # Top Bottom Boundary: ╭, ╰
 
-format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$memory_usage\e[D>${fill}<$cmd_duration$time\u001b8\n$character"""
+# format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$memory_usage>${fill}<$cmd_duration$time\u001b8\n$character"""
+format = """╭$username$docker_context$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$fill\n╰$time $cmd_duration $character"""
+
 # continuation_prompt = "\u001b7|\n\u001b8+"
 # continuation_prompt = "\\033\\[1A"
 
 [fill]
-style = "white"
-symbol = "-"
+style = "bg:prev_bg"
+symbol = " "
 
-[cmd_duration]	
-style = "fg:black bg:white"
+[cmd_duration]
+style = "white"
 min_time = 1
-format = "[ 󰔚 $duration ]($style)"
+format = "[$duration]($style)"
 
 [time]
 disabled = false
-style = "fg:black bg:white"
-format = '[$time  ]($style)'
-time_format = "%l:%M %p"
+format = '$time'
+time_format = "%l:%M%P"
 
 [character]
-success_symbol = "[██    ](fg:black bg:#B1FF8F)[](#B1FF8F)"
-error_symbol = "[██    ](fg:black bg:#FF8582)[](#FF8582)"
+success_symbol = "[](fg:#B1FF8F bg:prev_bg)[](#B1FF8F)"
+error_symbol = "[](fg:#FF8582 bg:prev_bg)[](#FF8582)"
 
 [memory_usage]
 style = "white"
 symbol = "󰍛 "
-format = "[](fg:#f78a40 bg:$style)[ $symbol$ram_pct ](bg:$style fg:black)"
+format = "[](fg:prev_bg bg:$style)[ $symbol$ram_pct ](bg:$style fg:black)"
 threshold = 2
 disabled = false
 
@@ -65,7 +66,7 @@ disabled = false
 style = "#67b0ff"
 truncate_to_repo = false
 fish_style_pwd_dir_length = 1
-format = "[](fg:$style bg:black)[ $path$read_only ](bg:$style fg:black)[](fg:$style bg:#f78a40)"
+format = "[](fg:$style bg:prev_bg)[ $path$read_only ](bg:$style fg:black)"
 read_only = " "
 
 [docker_context]
@@ -74,58 +75,56 @@ symbol = "🐳"
 format = "[$symbol$context]($style)"
 
 [git_branch]
-style = "#f78a40"
-format = "[ $symbol$branch ](fg:black bg:$style)"
+style = "#f05133"
+format = "[](fg:$style bg:prev_bg)[ $symbol$branch](fg:black bg:$style)"
 
 [git_commit]
-style = "#f78a40"
-format = "[\\($hash$tag\\)](fg:black bg:$style)"
+style = "#f05133"
+format = "[](fg:$style bg:prev_bg)[ \\($hash$tag\\)](fg:black bg:$style)"
 
 [git_state]
-style = "#f78a40"
-format = "[($state($progress_current/$progress_total))](fg:black bg:$style)"
+style = "#f05133"
+format = "[](fg:$style bg:prev_bg)[ ($state($progress_current/$progress_total))](fg:black bg:$style)"
 
 [git_status]
-style = "#f78a40"
+style = "#f05133"
 format = "([$conflicted$staged$modified$renamed$deleted$untracked$stashed$ahead_behind ](fg:black bg:$style))"
-conflicted = "    ${count} "
+conflicted = "    ${count}"
 staged = "  $count"
-modified = "  ${count}"
+modified = "  ${count}"
 renamed = "  ${count}"
 deleted = "  ${count}"
-untracked = " ?${count}"
+untracked = "  ${count}"
 stashed = "  ${count}"
 ahead = "  ${count}"
 behind = "  ${count}"
-diverged = " נּ  ${ahead_count}  ${behind_count} "
+diverged = " 󱓌  ${ahead_count}  ${behind_count} "
 
 [golang]
-symbol = " "
-style = "fg:black bg:blue"
-format = "[ ](fg:#f78a40 bg:$style)[$symbol$version]($style)[](fg:$style bg:#f78a40)"
+symbol = " "
+style = "#77e7ff"
+format = "[](fg:$style bg:prev_bg)[ $symbol$version](fg:black bg:$style)"
 
 [nodejs]
 symbol = "󰎙 "
 style = "#aef27f"
-format = "[ ](fg:#f78a40 bg:$style)[ $symbol($version) ](fg:black bg:$style)[](fg:$style bg:#f78a40)"
+format = "[](fg:$style bg:prev_bg)[ $symbol($version) ](fg:black bg:$style)"
 
 [package]
 disabled = true
 style = "#eb9606"
-format = "[ ](fg:#f78a40 bg:$style)[$symbol$version](fg:black bg:$style)[](fg:$style bg:#f78a40)"
+format = "[](fg:$style bg:prev_bg)[ $symbol$version](fg:black bg:$style)"
 
 [python]
 symbol = "󰌠 "
-style = "blue"
-format = "[ ](fg:#f78a40 bg:$style)[$symbol$pyenv_prefix$version$virtualenv](fg:fg:black bg:$style)[](fg:$style bg:#f78a40)"
+style = "#ffde57"
+format = "[](fg:$style bg:prev_bg)[ $symbol$pyenv_prefix$version$virtualenv](fg:fg:black bg:$style)"
 
 [rust]
 symbol="󱘗 "
 style = "#f74c00"
-format = "[ ](fg:#f78a40 bg:$style)[$symbol$version](fg:black bg:$style)[](fg:$style bg:#f78a40)"
+format = "[](fg:$style bg:prev_bg)[ $symbol$version](fg:black bg:$style)"
 
 [username]
 show_always = true
-style_user = "black"
-style_root = "black" # #FF8888
-format = "[ $user ](fg:white bg:$style)"
+format = "[ $user ](fg:white)"
