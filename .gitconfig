@@ -137,3 +137,9 @@
 	pushInsteadOf = https://github.com/
 [credential "https://devops.wisetechglobal.com"]
 	provider = generic
+[credential "http://tfs.wtg.zone:8080"]
+	provider = generic
+[credential "https://devops-test.wtg.zone"]
+	provider = generic
+[maintenance]
+	repo = P:/Dev

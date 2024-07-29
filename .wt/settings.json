@@ -8,20 +8,16 @@
             "keys": "ctrl+v"
         },
         {
+            "command": "unbound",
+            "keys": "ctrl+t"
+        },
+        {
             "command": 
             {
                 "action": "copy",
                 "singleLine": false
             },
             "keys": "ctrl+c"
-        },
-        {
-            "command": "find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "command": "unbound",
-            "keys": "ctrl+t"
         },
         {
             "command": 
@@ -31,6 +27,10 @@
                 "splitMode": "duplicate"
             },
             "keys": "alt+shift+d"
+        },
+        {
+            "command": "find",
+            "keys": "ctrl+shift+f"
         },
         {
             "command": 
@@ -45,6 +45,12 @@
     "copyOnSelect": false,
     "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
     "experimental.rendering.forceFullRepaint": true,
+    "newTabMenu": 
+    [
+        {
+            "type": "remainingProfiles"
+        }
+    ],
     "profiles": 
     {
         "defaults": 
@@ -61,7 +67,7 @@
             },
             "intenseTextStyle": "all",
             "opacity": 50,
-            "padding": "20, 20, 0, 0",
+            "padding": "20",
             "snapOnInput": true,
             "useAcrylic": true,
             "useAtlasEngine": true
@@ -151,7 +157,7 @@
             },
             {
                 "closeOnExit": "always",
-                "commandline": "ssh deck@192.168.0.240 -i ~/.ssh/steamdeck",
+                "commandline": "ssh deck@steamdeck -i ~/.ssh/steamdeck",
                 "guid": "{483f324a-8444-471f-8386-0cfa465f3372}",
                 "hidden": false,
                 "icon": null,
@@ -216,6 +222,30 @@
                 "hidden": false,
                 "name": "PowerShell",
                 "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "guid": "{8ab8e6f6-35c6-5b46-8419-3e1568105476}",
+                "hidden": false,
+                "name": "podman-machine-default",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{fe66f4b8-350f-56bb-adb0-c2ce745f6db5}",
+                "hidden": false,
+                "name": "PowerShell (scoop)",
+                "source": "Windows.Terminal.PowershellCore"
+            },
+            {
+                "guid": "{c397f356-5e7b-55bc-956b-8cb4b9762c26}",
+                "hidden": false,
+                "name": "NixOS",
+                "source": "Windows.Terminal.Wsl"
+            },
+            {
+                "guid": "{46ca431a-3a87-5fb3-83cd-11ececc031d2}",
+                "hidden": false,
+                "name": "kali-linux",
+                "source": "Windows.Terminal.Wsl"
             }
         ]
     },

@@ -204,7 +204,7 @@ function CopyAnalyzers {
 	Push-Location /git/wtg/CargoWise/Shared/CargoWise.Analyzers
 	dotnet build *> $null
 
-	Copy-Item -Force bin/CargoWise.Analyzers.dll /git/wtg/CargoWise/Dev/packages/build/CargoWise.Analyzers/analyzers/dotnet/cs
+	Copy-Item -Force "bin/net6.0/CargoWise.Analyzers.dll" "/git/wtg/CargoWise/Dev/packages/build/CargoWise.Analyzers/analyzers/dotnet/cs"
 	Pop-Location
 }
 
@@ -288,7 +288,6 @@ function Get-Cache() {
   }
  
   # TODO: Figure out what the fuck the best one of the files is
-
   $hit = $files | Where-Object -FilterScript { $_.Name -like "C_git_wtg_*"} | Select-Object -First 1;
 
   if( -not $hit ) {
