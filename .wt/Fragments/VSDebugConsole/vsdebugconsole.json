@@ -1,0 +1,10 @@
+{
+  "profiles": [
+    {
+      "name": "Visual Studio Debug Console",
+      "commandline" : "vsdebugconsole.exe",
+      "hidden" : true,
+      "closeOnExit" : "always"
+    }
+  ]
+}
