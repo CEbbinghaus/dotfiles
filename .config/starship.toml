@@ -32,7 +32,7 @@ add_newline = false
 # Top Bottom Boundary: ╭, ╰
 
 # format = """$docker_context$username$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$memory_usage>${fill}<$cmd_duration$time\u001b8\n$character"""
-format = """╭$username$docker_context$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$python$rust$golang$fill\n╰$time $cmd_duration $character"""
+format = """╭$username$docker_context$directory$git_branch$git_status$git_state$git_commit$git_state$package$nodejs$dotnet$python$rust${custom.qgl}$golang$fill\n╰$time $cmd_duration $character"""
 
 # continuation_prompt = "\u001b7|\n\u001b8+"
 # continuation_prompt = "\\033\\[1A"
@@ -118,13 +118,26 @@ format = "[](fg:$style bg:prev_bg)[ $symbol$version](fg:black bg:$style)"
 [python]
 symbol = "󰌠 "
 style = "#ffde57"
-format = "[](fg:$style bg:prev_bg)[ $symbol$pyenv_prefix$version$virtualenv](fg:fg:black bg:$style)"
+format = "[](fg:$style bg:prev_bg)[ $symbol$pyenv_prefix$version$virtualenv](fg:black bg:$style)"
+
+[dotnet]
+symbol = " "
+style = "#5026b5"
+format = "[](fg:$style bg:prev_bg)[ $symbol$version $tfm](fg:white bg:$style)"
 
 [rust]
 symbol="󱘗 "
-style = "#f74c00"
-format = "[](fg:$style bg:prev_bg)[ $symbol$version](fg:black bg:$style)"
+style = "#4b4945"
+format = "[](fg:$style bg:prev_bg)[ $symbol$version](fg:white bg:$style)"
 
 [username]
 show_always = true
 format = "[ $user ](fg:white)"
+
+[custom.qgl]
+# when = "qgl prompt"
+detect_files = ["Build.xml"]
+symbol = "QGL"
+command = "qgl prompt"
+style = "#371ee1"
+format = "[](fg:$style bg:prev_bg)[ $symbol $output ](fg:white bg:$style)"
